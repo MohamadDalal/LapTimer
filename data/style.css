@@ -1,0 +1,60 @@
+body {
+    background-color: #FFF;
+    font-family: 'Roboto', sans-serif;
+}
+
+header h1 {
+    font-size: 50px;
+}
+header {
+    text-align: center;
+}
+
+p a {
+    display: inline;
+    border: 5px solid red;
+}
+
+nav {
+    text-align: center;
+}
+
+nav ul li {
+    display: inline-block;
+    text-align: center;
+    margin: 0 20px;
+    border: 1px dotted grey;
+    border-radius: 0.5em;
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    padding: 5px;
+}
+
+nav ul li:hover {
+    border: 1px solid black;
+}
+
+.laptimes {
+    text-align: center;
+}
+
+.data {
+    text-align: center;
+}
+
+.data ul li {
+    display: inline-block;
+    margin: 0.5em;
+}
+
+.bold {
+    font-weight: bold;
+}
+.info {
+    font-size: 1.15em;
+}
