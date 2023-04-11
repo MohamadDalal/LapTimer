@@ -6,7 +6,6 @@
 //Faste værdier for ssid og password til AP.
 const char *ssidAP = "Laptime";
 const char *passwordAP = "aauracing01";
-const int PHOTO_SENSOR_THRESHOLD = 400;
 
 
 /*
@@ -40,6 +39,7 @@ const int PHOTO_SENSOR_THRESHOLD = 400;
 */
 AsyncWebServer serverAP(80);
 AsyncEventSource events("/events");
+const char* PARAM_MESSAGE = "message";
 
 //SSID og password variable
 String inputSSID, inputPass;
@@ -55,7 +55,12 @@ float lastTimeDiff = 0;
 
 
 float next = millis() + 5000;
+// Rigtig værdier
+int PHOTO_SENSOR_THRESHOLD = 3000;
 #define photoSensorPin 32
+// Værdier brugt til at teste med en joystick på pin 34
+//#define photoSensorPin 34
+//const int PHOTO_SENSOR_THRESHOLD = 2500;
 
 void lapSimulator() {
   if (currentLap == 0) {
@@ -102,7 +107,6 @@ void lapSimulator() {
 // ----- LAPTIMER -----
 void lapTimer() {
   int photoSensorValue = analogRead(photoSensorPin);//Læs foto sensor
-  Serial.println(photoSensorValue);
   if (currentLap == 0) {
     if (photoSensorValue > PHOTO_SENSOR_THRESHOLD) {
       lastTime = millis();
@@ -111,7 +115,7 @@ void lapTimer() {
       events.send("reload", "reload", millis());
     }
   }
-  else if ((photoSensorValue > 500) && (millis() > (lastTime + 5000))) {
+  else if ((photoSensorValue > PHOTO_SENSOR_THRESHOLD) && (millis() > (lastTime + 5000))) {  
     //Tilføj laptiden til array
     lapTimes[currentLap - 1] = millis() - lastTime;
 
@@ -161,6 +165,12 @@ String processor(const String& var) {
     else {
       return "OFF";
     }
+  }
+  if (var == "SENSORREADING"){
+    return String(analogRead(photoSensorPin));
+  }
+  if (var == "SENSORTHRESH"){
+    return String(PHOTO_SENSOR_THRESHOLD);
   }
   if (var == "LAPNUMBER") {
     return String(currentLap);
@@ -344,6 +354,53 @@ void lapTimePage() {
     }
   });
 
+  // Send hvad photo sensoren læser til hjemmesiden
+  serverAP.on("/getSensorReading", HTTP_GET, [](AsyncWebServerRequest * request) {
+    request->send_P(200, "text/plain", String(analogRead(photoSensorPin)).c_str());
+  });
+  
+  // Possible messages of PUT request are: Positive numbers, negative numbers, decimal numbers and exponents "Ex:5e3"
+  // Plan is to check that string only has numbers and then return a message according to that
+  // If string has something other than number then return "Only integers allowed"
+  // If number is too big or too small then return a message saying it is
+  // If successful return "Threshold updated succesfully"
+  // Returned message is a JSON object with status and message to be displayed
+  // "Threshold changed successfully" message does not really show on the website, because a reload event is initiated
+  serverAP.on("/setSensorThreshold", HTTP_PUT, [](AsyncWebServerRequest * request) {
+    String message;
+    String responseMessage = "{\"message\":\"No Message\"}";
+    if (request->hasParam(PARAM_MESSAGE, true)) {
+        message = request->getParam(PARAM_MESSAGE, true)->value();
+    } else {
+        message = "No message sent";
+    }
+    Serial.print("Got set threshold request with message: "); Serial.println(message);
+    // Input tinget i hjemmesiden vil ikke give værdier der er ikke tal
+    // Tjekke om beskeden har minus, decimal eller eksponent
+    if((message.indexOf("-") + message.indexOf("e") + message.indexOf(".")) == -3){
+      // Integer was given
+      int newThresh = message.toInt();
+      //Serial.println(newThresh);
+      if(newThresh > 4095){
+        // Too high
+        responseMessage = "{\"status\":-1,\"message\":\"Threshold too high\"}";
+      }
+      else{
+        // Success
+        PHOTO_SENSOR_THRESHOLD = newThresh;
+        Serial.print("Set the new threshold to: "); Serial.println(newThresh);
+        responseMessage = "{\"status\":0,\"message\":\"Threshold changed successfully\"}";
+        events.send("reload", "reload", millis());
+      }
+    }
+    else{
+      // Non-integer was given
+      responseMessage = "{\"status\":-1,\"message\":\"Threshold is not an integer\"}";
+    }
+    request->send(200, "application/json", responseMessage);
+    Serial.println("Finished handling the set threshold request");
+  });
+
   // Handle Web Server Events
   events.onConnect([](AsyncEventSourceClient * client) {
     if (client->lastId()) {
@@ -393,8 +450,8 @@ void resetArr() {
 
 void loop() {
   if (isStarted) {
-    //lapTimer();       //Normal laptimer
-    lapSimulator();     //Laptimer simulator
+    lapTimer();       //Normal laptimer
+    //lapSimulator();     //Laptimer simulator
   }
   if (reset) {
     resetArr();

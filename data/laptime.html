@@ -18,7 +18,24 @@
     </nav>
     <p id="status"><span class="bold">Status:</span> %STATUS%</p> 
   </header>
+  <div class= "sensor">
+    <h2>Sensor Info</h2>
+    <div class= "sensorSliderContainer">
+      <input type="range" min="0" max="4095" class="sensorSlider" id="mySensorSlider">
+    </div>
+    <div class="sensorInfo">
+      <ul>
+        <li><p class="info"><span class="bold">Sensor Reading:</span> <span, id= "sensorReading">%SENSORREADING%</span></p></li>
+        <li><p class="info"><span class="bold">Current Threshold:</span> <span, id= "sensorThreshold">%SENSORTHRESH%</span></p></li>
+        <li><p class="info"><span class="bold">New Threshold:</span> <input type="number" id="threshold" name="threshold" min="0" max="4095"></p></li>
+        <li><button type="button" class="threshButton" id="threshButton">Set</button></li>
+        <br>
+        <li><p class="info" style="color:red;margin:auto;" id="setThreshMessage"></p></li>
+      </ul>
+    </div>
+  </div>
   <div class="data">
+    <h2 style="margin:0.5em;">Time Measurements</h2>
     <ul>
       <li><p id="lapNumber" class="info"><span class="bold">Lap:</span> %LAPNUMBER%</p></li>
       <li><p id="fastesTime" class="info"><span class="bold">Fastest:</span> %FASTESTTIME%</p></li>
@@ -151,27 +168,83 @@
     }, false);
 
     setInterval(function ( ) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-     if (this.readyState == 4 && this.status == 200) {
-       document.getElementById("1").innerHTML = this.responseText;
-     }
-    };
-   xhttp.open("GET", "/getCurrentLapTime", true);
-    xhttp.send();
-  }, 1000 ) ;
-}
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("1").innerHTML = this.responseText;
+        }
+      };
+      xhttp.open("GET", "/getCurrentLapTime", true);
+      xhttp.send();
+    }, 1000 ) ;
 
-//Sæt farven af deltaTime
-var value = document.getElementById("deltaTimeValue").innerHTML;
-if(value.includes("+")) {
-  document.getElementById("deltaTimeValue").style.color = "#ff0000";
-}
-else if(value.includes("-")) {
-  document.getElementById("deltaTimeValue").style.color = "#008000";
-}
-else {
-  document.getElementById("deltaTimeValue").style.color = "#000000";
-}
+    setInterval(function ( ) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("sensorReading").innerHTML = this.responseText;
+        }
+      };
+      xhttp.open("GET", "/getSensorReading", true);
+      xhttp.send();
+    }, 100 ) ;
+
+  }
+  
+  // Source: https://stackoverflow.com/a/45650898/19151548
+  // So that pressing enter sets the threshold (Works only on computers)
+  document.getElementById("threshold").addEventListener("keyup", function(e) {
+    if(event.key !== "Enter") return;
+    document.getElementById("threshButton").click();
+    event.preventDefault();
+  })
+  // Function activated when the set threshold button is pressed
+  // Sends a PUT request to the ESP32, and then displays the response message when failed
+  document.getElementById("threshButton").onclick = function(){
+      var threshBox = document.getElementById("threshold");
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          //console.log(this.responseText);
+          var responseJson = JSON.parse(this.responseText);
+          //console.log(this.responseJson);
+          if(responseJson.status == 0){
+            document.getElementById("setThreshMessage").style.color = "green";
+          }
+          else{
+            document.getElementById("setThreshMessage").style.color = "red";
+            document.getElementById("setThreshMessage").innerHTML = responseJson.message;
+          }
+        }
+      };
+      xhttp.open("PUT", "/setSensorThreshold", true);
+      xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhttp.send("message="+threshBox.value);
+    }
+
+  //Sæt farven af deltaTime
+  var value = document.getElementById("deltaTimeValue").innerHTML;
+  if(value.includes("+")) {
+    document.getElementById("deltaTimeValue").style.color = "#ff0000";
+  }
+  else if(value.includes("-")) {
+    document.getElementById("deltaTimeValue").style.color = "#008000";
+  }
+  else {
+    document.getElementById("deltaTimeValue").style.color = "#000000";
+  }
+
+  // Få linket værdien mellem slideren og input boksen til sensor threshold
+  var threshCurrent = document.getElementById("sensorThreshold")
+  var threshSlider = document.getElementById("mySensorSlider");
+  var threshBox = document.getElementById("threshold");
+  threshSlider.value = threshCurrent.innerHTML;
+  threshBox.value = threshSlider.value;
+  threshSlider.oninput = function() {
+    threshBox.value = threshSlider.value;
+  }
+  threshBox.oninput = function() {
+    threshSlider.value = threshBox.value;
+  }
 </script>
 </html>

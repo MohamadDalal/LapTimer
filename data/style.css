@@ -8,6 +8,8 @@ header h1 {
 }
 header {
     text-align: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 
 p a {
@@ -17,6 +19,11 @@ p a {
 
 nav {
     text-align: center;
+}
+
+nav ul {
+    padding: 0px;
+    margin: 0.5em;
 }
 
 nav ul li {
@@ -45,11 +52,20 @@ nav ul li:hover {
 
 .data {
     text-align: center;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+}
+
+.data ul {
+    padding: 0px;
+    margin: 0.5em;
 }
 
 .data ul li {
     display: inline-block;
-    margin: 0.5em;
+    /*margin: 0.5em;*/
+    margin-left: 0.5em;
+    margin-right: 0.5em;
 }
 
 .bold {
@@ -57,4 +73,50 @@ nav ul li:hover {
 }
 .info {
     font-size: 1.15em;
+}
+
+.sensorSliderContainer {
+    margin: auto;
+    width: 90%
+}
+
+.sensorSlider{
+    width: 100%
+}
+
+.sensor {
+    text-align: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.sensorInfo {
+    text-align: center;
+}
+.sensorInfo ul {
+    padding: 0px;
+    margin: 0.5em;
+}
+
+.sensorInfo ul li {
+    display: inline-block;
+    /*margin: 0.5em;*/
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.threshButton {
+    text-decoration: none;
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    background-color: #FFF;
+    margin: 0 20px;
+    border: 1px dotted grey;
+    padding: 5px;
+    border-radius: 0.5em;
+}
+
+.threshButton:hover {
+    border: 1px solid black;
 }
