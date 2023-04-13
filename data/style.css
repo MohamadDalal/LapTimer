@@ -74,6 +74,14 @@ nav ul li:hover {
 .info {
     font-size: 1.15em;
 }
+.leftInfo {
+    font-size: 1.15em;
+    display: none;
+}
+.rightInfo {
+    font-size: 1.15em;
+    display: none;
+}
 
 .sensorSliderContainer {
     margin: auto;

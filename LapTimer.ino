@@ -54,8 +54,10 @@ String inputSSID, inputPass;
 
 //Globale til lapTimer
 int currentLap = 0;
+bool startedFirstLap = false;
 int skidLapIndex = 0; // Ignore lap 1,3 and lap 2 is right lap and lap 4 is left lap. Reset to 0 when lap 5 comes
 int currentSkidLap = 0;
+bool startedFirstSkid = false;
 //int currentLeftLap = 0;
 //int currentRightLap = 0;
 float lapTimes[80];
@@ -120,18 +122,18 @@ void lapSimulator() {
 
 // ----- LAPTIMERS -----
 void lapTimerEndurance() {
+  //Serial.println("Running Endurance");
   int photoSensorValue = analogRead(photoSensorPin);//Læs foto sensor
-  if (currentLap == 0) {
-    if (photoSensorValue > PHOTO_SENSOR_THRESHOLD) {
-      lastTime = millis();
-      currentLap++;
-
-      events.send("reload", "reload", millis());
-    }
+  //if (!startedFirstLap) {Serial.println("Did not start first lap");}
+  //if (startedFirstLap) {Serial.println("Started first lap");}
+  if ((photoSensorValue > PHOTO_SENSOR_THRESHOLD) && (!startedFirstLap)){
+    Serial.println("Starting first lap");
+    startedFirstLap = true;
+    lastTime = millis();
   }
-  else if ((photoSensorValue > PHOTO_SENSOR_THRESHOLD) && (millis() > (lastTime + debounceTime))) {  
+  else if ((photoSensorValue > PHOTO_SENSOR_THRESHOLD) && (millis() > (lastTime + debounceTime)) && startedFirstLap) {  
     //Tilføj laptiden til array
-    lapTimes[currentLap - 1] = millis() - lastTime;
+    lapTimes[currentLap] = millis() - lastTime;
 
     //Send noget random for at tjekke connection (ikke nødvendigt)
     events.send("ping", NULL, millis());
@@ -153,12 +155,7 @@ void lapTimerEndurance() {
     lastTime = millis();
 
     //Hvis der bliver over 40 laptimes så overskriv de første
-    if (currentLap + 1 > 80) {
-      currentLap = 1;
-    }
-    else {
-      currentLap++;
-    }
+    currentLap = (currentLap + 1) % 80;
     events.send("reload", "reload", millis());
   }
 }
@@ -186,24 +183,30 @@ void lapTimerSkidPad() {
       events.send("reload", "reload", millis());
     }
   }*/
+  /*if ((photoSensorValue > PHOTO_SENSOR_THRESHOLD) && !startedFirstSkid){
+    startedFirstSkid = true;
+    Serial.println("Started first skid lap");
+    lastTime = millis();
+  }*/
   if ((photoSensorValue > PHOTO_SENSOR_THRESHOLD) && (millis() > (lastTime + debounceTime))) { 
     Serial.print("Skid Lap Index is: "); Serial.println(skidLapIndex); 
     switch(skidLapIndex){
       case 0:
-        lastTime = millis();
-        if (currentLap + 1 > 80) {
+        lastTime = millis();                // Needed for debouncing
+        /*if (currentLap + 1 > 80) {
             currentSkidLap = 1;
           }
           else {
             currentSkidLap++;
-          }
+        }*/
         //skidLapIndex++;
-        events.send("reload", "reload", millis());
+        //events.send("reload", "reload", millis());
+        break;
       case 1:
         lastTime = millis();
         break;
       case 2:
-        rightLapTimes[currentSkidLap - 1] = millis() - lastTime;
+        rightLapTimes[currentSkidLap] = millis() - lastTime;
         lastTime = millis();
         //currentRightLap++;
         //events.send("reload", "reload", millis());
@@ -212,7 +215,7 @@ void lapTimerSkidPad() {
         lastTime = millis();
         break;
       case 4:
-        leftLapTimes[currentSkidLap - 1] = millis() - lastTime;
+        leftLapTimes[currentSkidLap] = millis() - lastTime;
         lastTime = millis();
         //currentLeftLap++;
         //Hvis der bliver over 40 laptimes så overskriv de første
@@ -222,7 +225,8 @@ void lapTimerSkidPad() {
         else {
           currentSkidLap++;
         }*/
-        //events.send("reload", "reload", millis());
+        currentSkidLap = (currentSkidLap + 1) % 80;
+        events.send("reload", "reload", millis());
         break;
       default:
         Serial.println("Reached default in LapTimerSkidPad switch case. This should not be possible");
@@ -285,7 +289,7 @@ String processor(const String& var) {
         if (s.toInt() > currentLap) {
           return "";
         }
-        else if (s == "1") {
+        else if (s == "0") {
           return ("Lap " + String(currentLap - i + 1) + ": " + String((millis() - lastTime) / 1000.0) + "...");
         }
         else if (s.toInt() <= currentLap) {
@@ -309,9 +313,10 @@ String processor(const String& var) {
             return ("Lap " + String(currentSkidLap) + ": Right " + rightLapTimes[currentLap] + " Left " + String((millis() - lastTime) / 1000.0) + "...");
           }
         }*/
+        else if (s == "0") {return "";}
         else if (s.toInt() <= currentSkidLap) {
-          Serial.println("Lap " + String(currentSkidLap - i + 1) + ": Right " + String(rightLapTimes[currentLap - i - 1] / 1000.0) + " Left " + String(leftLapTimes[currentLap - i - 1] / 1000.0));
-          return ("Lap " + String(currentSkidLap - i + 1) + ": Right " + String(rightLapTimes[currentLap - i - 1] / 1000.0) + " Left " + String(leftLapTimes[currentLap - i - 1] / 1000.0));
+          Serial.println("Lap " + String(currentSkidLap - i + 1) + ": Right " + String(rightLapTimes[currentSkidLap - i] / 1000.0) + " Left " + String(leftLapTimes[currentSkidLap - i] / 1000.0));
+          return ("Lap " + String(currentSkidLap - i + 1) + ": Right " + String(rightLapTimes[currentSkidLap - i] / 1000.0) + " Left " + String(leftLapTimes[currentSkidLap - i] / 1000.0));
         }
         else {
           return "";
@@ -471,8 +476,16 @@ void lapTimePage() {
 
   serverAP.on("/reset", HTTP_GET, [](AsyncWebServerRequest * request) {
     reset = true;
-    isStarted = false;
-    currentLap = 0;
+    //isStarted = false;
+    if (RaceType == Endurance){
+      currentLap = 0;
+      startedFirstLap = false;
+    }
+    else if (RaceType == SkidPad){
+      currentSkidLap = 0;
+      skidLapIndex = 0;
+      startedFirstSkid = false;
+    }
     lastTimeDiff = 5000;
     request->send(SPIFFS, htmlFileName.c_str(), String(), false, processor);
     events.send("reload", "reload", millis());
@@ -480,8 +493,8 @@ void lapTimePage() {
 
   serverAP.on("/getCurrentLapTime", HTTP_GET, [](AsyncWebServerRequest * request) {
     if (isStarted) {
-      if (RaceType == Endurance){
-        request->send_P(200, "text/plain", ("Lap " + String(currentLap) + ": " + String((millis() - lastTime) / 1000.0) + " ...").c_str());
+      if (RaceType == Endurance && startedFirstLap){
+        request->send_P(200, "text/plain", ("Lap " + String(currentLap + 1) + ": " + String((millis() - lastTime) / 1000.0) + " ...").c_str());
       }
       else if (RaceType == SkidPad){
         switch (skidLapIndex){
@@ -490,16 +503,16 @@ void lapTimePage() {
             request->send_P(200, "text/plain", "");
             break;
           case 1:
-            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap) + ": Right ... Left ...").c_str());
+            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap+1) + ": Right ... Left ...").c_str());
             break;
           case 2:
-            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap) + ": Right " + String((millis() - lastTime) / 1000.0) + "... Left ...").c_str());
+            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap+1) + ": Right " + String((millis() - lastTime) / 1000.0) + "... Left ...").c_str());
             break;
           case 3:
-            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap) + ": Right " + String(rightLapTimes[currentLap] / 1000.0) + " Left ...").c_str());
+            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap+1) + ": Right " + String(rightLapTimes[currentSkidLap] / 1000.0) + " Left ...").c_str());
             break;
           case 4:
-            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap) + ": Right " + String(rightLapTimes[currentLap] /1000.0) + " Left " + String((millis() - lastTime) / 1000.0) + "...").c_str());
+            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap+1) + ": Right " + String(rightLapTimes[currentSkidLap] /1000.0) + " Left " + String((millis() - lastTime) / 1000.0) + "...").c_str());
             break;
           default:
             request->send_P(200, "text/plain", "Error: Not supposed to reach default value");
@@ -601,6 +614,7 @@ void setup() {
     return;
   }
 
+  RaceType = Endurance;
   resetArr();
 
   //Start access point

@@ -53,6 +53,7 @@
   </div>
 
   <section class="laptimes">
+    <p id="0">%0%</p>
     <p id="1">%1%</p>
     <p id="2">%2%</p>
     <p id="3">%3%</p>
@@ -177,7 +178,7 @@
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("1").innerHTML = this.responseText;
+        document.getElementById("0").innerHTML = this.responseText;
         }
       };
       xhttp.open("GET", "/getCurrentLapTime", true);
