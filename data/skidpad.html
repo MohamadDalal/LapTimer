@@ -52,16 +52,16 @@
       -->
       <li><button type="button" class="threshButton" id="leftInfoButton">Left Lap Info</button></li>
       <li><button type="button" class="threshButton" id="rightInfoButton">Right Lap Info</button></li>
-      <br>
-      <li><p id="leftFastesTime" class="leftInfo"><span class="bold">Fastest:</span> %LEFTFASTESTTIME%</p></li>
-      <li><p id="leftAverageTime" class="leftInfo"><span class="bold">Average:</span> %LEFTAVERAGETIME%</p></li>
-      <li><p id="leftSlowestTime" class="leftInfo"><span class="bold">Slowest:</span> %LEFTSLOWESTTIME%</p></li>
-
-      <li><p id="rightFastesTime" class="rightInfo"><span class="bold">Fastest:</span> %RIGHTFASTESTTIME%</p></li>
-      <li><p id="rightAverageTime" class="rightInfo"><span class="bold">Average:</span> %RIGHTAVERAGETIME%</p></li>
-      <li><p id="rightSlowestTime" class="rightInfo"><span class="bold">Slowest:</span> %RIGHTSLOWESTTIME%</p></li>
+      <br><br>
+      <li class="leftInfo" style="display: none;"><p id="leftFastesTime" class="info"><span class="bold">Fastest:</span> %LEFTFASTESTTIME%</p></li>
+      <li class="leftInfo" style="display: none;"><p id="leftAverageTime" class="info"><span class="bold">Average:</span> %LEFTAVERAGETIME%</p></li>
+      <li class="leftInfo" style="display: none;"><p id="leftSlowestTime" class="info"><span class="bold">Slowest:</span> %LEFTSLOWESTTIME%</p></li>
+      
+      <li class="rightInfo" style="display: none;"><p id="rightFastesTime" class="info"><span class="bold">Fastest:</span> %RIGHTFASTESTTIME%</p></li>
+      <li class="rightInfo" style="display: none;"><p id="rightAverageTime" class="info"><span class="bold">Average:</span> %RIGHTAVERAGETIME%</p></li>
+      <li class="rightInfo" style="display: none;"><p id="rightSlowestTime" class="info"><span class="bold">Slowest:</span> %RIGHTSLOWESTTIME%</p></li>
     </ul>
-    <br>
+    
     <ul>
         <li><p id="leftDelta" class="Info"><span class="bold">Left Delta:</span> <span id="leftDeltaValue">%LEFTDELTATIME%</span></p></li>
         <li><p id="rightDelta" class="Info"><span class="bold">Right Delta:</span> <span id="rightDeltaValue">%RIGHTDELTATIME%</span></p></li>
@@ -247,17 +247,57 @@
     }
 
   document.getElementById("leftInfoButton").onclick = function(){
-    document.getElementsByClassName("leftInfo").style.display = "inline";
-    document.getElementsByClassName("rightInfo").style.display = "none";
-    document.getElementsById("leftInfoButton").style.border = "1px solid green";
-    document.getElementsById("rightInfoButton").style.border = "1px dotted grey;";
+    console.log("Clicked left info button");
+    //document.getElementsByClassName("leftInfo").style.display = "inline";
+    //document.getElementsByClassName("rightInfo").style.display = "none";
+    const leftCollection = document.getElementsByClassName("leftInfo");
+    const rightCollection = document.getElementsByClassName("rightInfo");
+    for (let i=0; i<leftCollection.length; i++){
+      leftCollection[i].style.display = "inline-block";
+      rightCollection[i].style.display = "none";
+      //leftCollection[i].style.visibility = "visible";
+      //rightCollection[i].style.visibility = "hidden";
+      //leftCollection[i].style.fontsize = "1.15em"
+      //rightCollection[i].style.fontsize = "0em"
+      /*leftCollection[i].style.marginleft = "0.5em";
+      leftCollection[i].style.marginright = "0.5em";
+      rightCollection[i].style.marginleft = "10em";
+      rightCollection[i].style.marginright = "10em";*/
+      //leftCollection[i].class = "skidInfo";
+      //rightCollection[i].class = "hiddenInfo";
+    }
+    //document.getElementById("leftInfoButton").style.border = "1px solid green";
+    //document.getElementById("rightInfoButton").style.border = "1px dotted grey";
+    document.getElementById("leftInfoButton").className = "selectedButton";
+    document.getElementById("rightInfoButton").className = "threshButton";
   }
 
   document.getElementById("rightInfoButton").onclick = function(){
-    document.getElementsByClassName("leftInfo").style.display = "none";
-    document.getElementsByClassName("rightInfo").style.display = "inline";
-    document.getElementsById("leftInfoButton").style.border = "1px dotted grey;";
-    document.getElementsById("rightInfoButton").style.border = "1px solid green";
+    console.log("Clicked right info button");
+    const leftCollection = document.getElementsByClassName("leftInfo");
+    const rightCollection = document.getElementsByClassName("rightInfo");
+    for (let i=0; i<leftCollection.length; i++){
+      //leftCollection[i].class = "hiddenInfo";
+      //rightCollection[i].class = "skidInfo";
+      //leftCollection[i].style.fontsize = "0em"
+      //rightCollection[i].style.fontsize = "1.15em"
+      leftCollection[i].style.display = "none";
+      rightCollection[i].style.display = "inline-block";
+      //leftCollection[i].style.visibility = "hidden";
+      //rightCollection[i].style.visibility = "visible";
+      /*leftCollection[i].style.marginleft = "10em";
+      leftCollection[i].style.marginright = "10em";
+      rightCollection[i].style.marginleft = "0.5em";
+      rightCollection[i].style.marginright = "0.5em";*/
+      //leftCollection[i].style.class = "hiddenInfo";
+      //rightCollection[i].style.class = "Info";
+      //leftCollection.style.color = "red";
+      //rightCollection.style.color = "green";
+    }
+    //document.getElementById("leftInfoButton").style.border = "1px dotted grey";
+    //document.getElementById("rightInfoButton").style.border = "1px solid green";
+    document.getElementById("leftInfoButton").className = "threshButton";
+    document.getElementById("rightInfoButton").className = "selectedButton";
   }
 
   //Sæt farven af deltaTime

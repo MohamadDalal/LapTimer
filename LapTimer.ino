@@ -269,16 +269,42 @@ String processor(const String& var) {
     }
   }
   if (var == "FASTESTTIME") {
-    return findFastestTime();
+    return findFastestTime(lapTimes, currentLap);
   }
   if (var == "DELTATIME") {
     return findDeltaTime();
   }
   if (var == "AVERAGETIME") {
-    return findAverageTime();
+    return findAverageTime(lapTimes, currentLap);
   }
   if (var == "SLOWESTTIME") {
-    return findSlowestTime();
+    return findSlowestTime(lapTimes, currentLap);
+  }
+
+  if (var == "LEFTFASTESTTIME") {
+    return findFastestTime(leftLapTimes, currentSkidLap);
+  }
+  if (var == "LEFTDELTATIME") {
+    return findLeftDeltaTime();
+  }
+  if (var == "LEFTAVERAGETIME") {
+    return findAverageTime(leftLapTimes, currentSkidLap);
+  }
+  if (var == "LEFTSLOWESTTIME") {
+    return findSlowestTime(leftLapTimes, currentSkidLap);
+  }
+
+  if (var == "RIGHTFASTESTTIME") {
+    return findFastestTime(rightLapTimes, currentSkidLap);
+  }
+  if (var == "RIGHTDELTATIME") {
+    return findRightDeltaTime();
+  }
+  if (var == "RIGHTAVERAGETIME") {
+    return findAverageTime(rightLapTimes, currentSkidLap);
+  }
+  if (var == "RIGHTSLOWESTTIME") {
+    return findSlowestTime(rightLapTimes, currentSkidLap);
   }
 
 
@@ -327,47 +353,47 @@ String processor(const String& var) {
   return "";
 }
 
-String findFastestTime() {
+String findFastestTime(float timesArray[], int currentLap) {
   float minValue = 100000.0;
   if (currentLap < 2) {
     return "none";
   }
   for (int i = 0; i < 80; i++) {
-    if (lapTimes[i] != -1.0) {
+    if (timesArray[i] != -1.0) {
       //Serial.println("FindFastest " + String(i+1) + ": " + String(lapTimes[i]));
-      if (lapTimes[i] < minValue) {
-        minValue = lapTimes[i];
+      if (timesArray[i] < minValue) {
+        minValue = timesArray[i];
       }
     }
   }
   return String(minValue / 1000.0);
 }
 
-String findSlowestTime() {
+String findSlowestTime(float timesArray[], int currentLap) {
   float maxValue = 0.0;
   if (currentLap < 2) {
     return "none";
   }
   for (int i = 0; i < 80; i++) {
-    if (lapTimes[i] != -1.0) {
+    if (timesArray[i] != -1.0) {
       //Serial.println("FindSlowest " + String(i+1) + ": " + String(lapTimes[i]));
-      if (lapTimes[i] > maxValue) {
-        maxValue = lapTimes[i];
+      if (timesArray[i] > maxValue) {
+        maxValue = timesArray[i];
       }
     }
   }
   return String(maxValue / 1000.0);
 }
 
-String findAverageTime() {
+String findAverageTime(float timesArray[], int currentLap) {
   if (currentLap < 2) {
     return "none";
   }
   int totalTimes = 0;
   float addedTimes = 0.0;
   for (int i = 0; i < 80; i++) {
-    if (lapTimes[i] != -1.0) {
-      addedTimes += lapTimes[i];
+    if (timesArray[i] != -1.0) {
+      addedTimes += timesArray[i];
       totalTimes++;
       //Serial.println("findAverage: currentLap: " + String(currentLap) + ", i: " + String(i) + ", Found time: " + String(lapTimes[i]));
     }
@@ -378,7 +404,7 @@ String findAverageTime() {
 }
 
 String findDeltaTime() {
-  if (currentLap < 3) {
+  if (currentLap < 2) {
     return "none";
   }
   int totalTimes = 0;
@@ -389,6 +415,52 @@ String findDeltaTime() {
   }
   float deltaTime = (lapTimes[totalTimes - 1] - lapTimes[totalTimes - 2]) / 1000.0;
   Serial.println("totalTimes: " + String(totalTimes) + " | lastLap=" + String(lapTimes[totalTimes - 1]) + " | lap before that=" + String(lapTimes[totalTimes - 2]));
+  if (deltaTime > 0.0) {
+    return ("+" + String(abs(deltaTime)));
+  }
+  else if (deltaTime < 0.0) {
+    return ("-" + String(abs(deltaTime)));
+  }
+  else {
+    return String(abs(deltaTime));
+  }
+}
+
+String findLeftDeltaTime() {
+  if (currentSkidLap < 2) {
+    return "none";
+  }
+  int totalTimes = 0;
+  for (int i = 0; i < 80; i++) {
+    if (leftLapTimes[i] != -1.0) {
+      totalTimes++;
+    }
+  }
+  float deltaTime = (leftLapTimes[totalTimes - 1] - leftLapTimes[totalTimes - 2]) / 1000.0;
+  Serial.println("LeftLap totalTimes: " + String(totalTimes) + " | lastLap=" + String(leftLapTimes[totalTimes - 1]) + " | lap before that=" + String(leftLapTimes[totalTimes - 2]));
+  if (deltaTime > 0.0) {
+    return ("+" + String(abs(deltaTime)));
+  }
+  else if (deltaTime < 0.0) {
+    return ("-" + String(abs(deltaTime)));
+  }
+  else {
+    return String(abs(deltaTime));
+  }
+}
+
+String findRightDeltaTime() {
+  if (currentSkidLap < 2) {
+    return "none";
+  }
+  int totalTimes = 0;
+  for (int i = 0; i < 80; i++) {
+    if (rightLapTimes[i] != -1.0) {
+      totalTimes++;
+    }
+  }
+  float deltaTime = (rightLapTimes[totalTimes - 1] - rightLapTimes[totalTimes - 2]) / 1000.0;
+  Serial.println("RightLap totalTimes: " + String(totalTimes) + " | lastLap=" + String(rightLapTimes[totalTimes - 1]) + " | lap before that=" + String(rightLapTimes[totalTimes - 2]));
   if (deltaTime > 0.0) {
     return ("+" + String(abs(deltaTime)));
   }
@@ -503,16 +575,16 @@ void lapTimePage() {
             request->send_P(200, "text/plain", "");
             break;
           case 1:
-            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap+1) + ": Right ... Left ...").c_str());
+            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap+1) + ": Left ... Right ...").c_str());
             break;
           case 2:
-            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap+1) + ": Right " + String((millis() - lastTime) / 1000.0) + "... Left ...").c_str());
+            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap+1) + ": Left ..." + " Right " + String((millis() - lastTime) / 1000.0) + "...").c_str());
             break;
           case 3:
-            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap+1) + ": Right " + String(rightLapTimes[currentSkidLap] / 1000.0) + " Left ...").c_str());
+            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap+1) + ": Left ..." + " Right " + String(rightLapTimes[currentSkidLap] / 1000.0)).c_str());
             break;
           case 4:
-            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap+1) + ": Right " + String(rightLapTimes[currentSkidLap] /1000.0) + " Left " + String((millis() - lastTime) / 1000.0) + "...").c_str());
+            request->send_P(200, "text/plain", ("Lap " + String(currentSkidLap+1) + ": Left " + String((millis() - lastTime) / 1000.0) + "..." + " Right " + String(rightLapTimes[currentSkidLap] /1000.0)).c_str());
             break;
           default:
             request->send_P(200, "text/plain", "Error: Not supposed to reach default value");

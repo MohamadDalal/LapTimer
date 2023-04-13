@@ -74,14 +74,25 @@ nav ul li:hover {
 .info {
     font-size: 1.15em;
 }
-.leftInfo {
+/*.leftInfo {
     font-size: 1.15em;
     display: none;
+    visibility: hidden;
 }
 .rightInfo {
     font-size: 1.15em;
     display: none;
+    visibility: hidden;
+}*/
+/*.skidInfo{
+    font-size: 1.15em;
+    display: "inline";
 }
+.hiddenInfo{
+    font-size: 0em;
+    margin: 0em;
+    display: none;
+}*/
 
 .sensorSliderContainer {
     margin: auto;
@@ -127,4 +138,16 @@ nav ul li:hover {
 
 .threshButton:hover {
     border: 1px solid black;
+}
+
+.selectedButton {
+    text-decoration: none;
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    background-color: #FFF;
+    margin: 0 20px;
+    border: 1px solid green;
+    padding: 5px;
+    border-radius: 0.5em;
 }
