@@ -11,6 +11,12 @@
     <h1>Laptimer</h1>
     <nav>
       <ul>
+        <li><a href="/endurance">Endurance</a></li>
+        <li style="border: 1px solid green;"><a href="/skidpad">Skid Pad</a></li>
+      </ul>
+    </nav>
+    <nav>
+      <ul>
           <li><a href="/start">Start</a></li>
           <li><a href="/stop">Stop</a></li>
           <li><a href="/reset">Reset</a></li>
@@ -38,10 +44,11 @@
     <h2 style="margin:0.5em;">Time Measurements</h2>
     <ul>
       <li><p id="lapNumber" class="info"><span class="bold">Lap:</span> %LAPNUMBER%</p></li>
-      <li><p id="fastesTime" class="info"><span class="bold">Fastest:</span> %FASTESTTIME%</p></li>
-      <li><p id="averageTime" class="info"><span class="bold">Average:</span> %AVERAGETIME%</p></li>
-      <li><p id="slowestTime" class="info"><span class="bold">Slowest:</span> %SLOWESTTIME%</p></li>
-      <li><p id="deltaTime" class="info"><span class="bold">Delta:</span> <span id="deltaTimeValue">%DELTATIME%</span></p></li>
+      <!--
+        <li><p id="fastesTime" class="info"><span class="bold">Fastest:</span> %FASTESTTIME%</p></li>
+        <li><p id="averageTime" class="info"><span class="bold">Average:</span> %AVERAGETIME%</p></li>
+        <li><p id="slowestTime" class="info"><span class="bold">Slowest:</span> %SLOWESTTIME%</p></li>
+      -->
     </ul>
     
   </div>
@@ -221,18 +228,6 @@
       xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhttp.send("message="+threshBox.value);
     }
-
-  //Sæt farven af deltaTime
-  var value = document.getElementById("deltaTimeValue").innerHTML;
-  if(value.includes("+")) {
-    document.getElementById("deltaTimeValue").style.color = "#ff0000";
-  }
-  else if(value.includes("-")) {
-    document.getElementById("deltaTimeValue").style.color = "#008000";
-  }
-  else {
-    document.getElementById("deltaTimeValue").style.color = "#000000";
-  }
 
   // Få linket værdien mellem slideren og input boksen til sensor threshold
   var threshCurrent = document.getElementById("sensorThreshold")
