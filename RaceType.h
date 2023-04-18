@@ -2,27 +2,40 @@
 #define MY_RACETYPE_H
 
 #include <Arduino.h>
+#include "ESPAsyncWebServer.h"
 
 class RaceType{
 
   protected:
-    //int currentLap = 0;
+    bool initialized = false;
+    int currentLap = 0;
     //float lapTimes[80];
     float lastTime = millis();
     bool isStarted = true;
-    bool reset = false;
+    //bool reset = false;
     //float lapTimeStart = 0; // Not used
     //float lastTimeDiff = 0; // Not used
     int PHOTO_SENSOR_THRESHOLD;
     int photoSensorPin;
+    String htmlFileName;
     float debounceTime;
     float next;
+    AsyncEventSource events;
     
   public:
     RaceType();
-    void lapTimer();
-    void resetArr();
-    void processor(const String& var);
+    RaceType(int sensorPin, float debounceTime, AsyncEventSource events, String htmlFileName);
+    virtual void init(int sensorPin, float debounceTime, AsyncEventSource events, String htmlFileName);
+    bool isInitialized();
+    virtual void lapTimer();
+    virtual String processor(const String& var);
+    String findFastestTime(float timesArray[], int currentLap);
+    String findAverageTime(float timesArray[], int currentLap);
+    String findSlowestTime(float timesArray[], int currentLap);
+    String findDeltaTime(float timesArray[], int currentLap);
+    virtual String getCurrentLapTime();
+    virtual void reset();
+    
   
 };
 
