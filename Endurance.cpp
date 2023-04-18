@@ -2,31 +2,34 @@
 
 Endurance::Endurance(){}
 
-Endurance::Endurance(int sensorPin, float debounceTime, AsyncEventSource events, String htmlFileName){
-  this->init(sensorPin, debounceTime, events, htmlFileName);
+Endurance::Endurance(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileName){
+  this->init(sensorPin, sensorThreshold, debounceTime, events, htmlFileName);
 }
 
-void Endurance::init(int sensorPin, float debounceTime, AsyncEventSource events, String htmlFileName){
+void Endurance::init(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileName){
   this->photoSensorPin = sensorPin;
+  this->PHOTO_SENSOR_THRESHOLD = sensorThreshold;
   this->events = events;
   this->debounceTime = debounceTime;
   this->htmlFileName = htmlFileName;
+  this->reset();
   this->initialized = true;
 }
 
-void Endurance::LapTimer(){
+void Endurance::lapTimer(){
   int photoSensorValue = analogRead(this->photoSensorPin);//Læs foto sensor
-  if ((photoSensorValue > this->PHOTO_SENSOR_THRESHOLD) && (!this->startedFirstLap)){
+  //Serial.print("Read following sensor value:"); Serial.println(photoSensorValue);
+  if ((photoSensorValue > *this->PHOTO_SENSOR_THRESHOLD) && (!this->startedFirstLap)){
     Serial.println("Starting first lap");
     this->startedFirstLap = true;
     this->lastTime = millis();
   }
-  else if ((photoSensorValue > this->PHOTO_SENSOR_THRESHOLD) && (millis() > (this->lastTime + debounceTime)) && this->startedFirstLap) {  
+  else if ((photoSensorValue > *this->PHOTO_SENSOR_THRESHOLD) && (millis() > (this->lastTime + debounceTime)) && this->startedFirstLap) {  
     //Tilføj laptiden til array
-    this->lapTimes[currentLap] = millis() - lastTime;
+    this->lapTimes[this->currentLap] = millis() - lastTime;
 
     //Send noget random for at tjekke connection (ikke nødvendigt)
-    this->events.send("ping", NULL, millis());
+    this->events->send("ping", NULL, millis());
 
     /*
        Send "reload" event som opdaterer siden for alle
@@ -46,14 +49,14 @@ void Endurance::LapTimer(){
 
     //Hvis der bliver over 40 laptimes så overskriv de første
     this->currentLap = (this->currentLap + 1) % 80;
-    this->events.send("reload", "reload", millis());
+    this->events->send("reload", "reload", millis());
   }
 }
 
 String Endurance::processor(const String& var){
   //Serial.println(var);
   if (var == "STATUS") {
-    if (this->isStarted) {
+    if (this->isStarted()) {
       return "ON";
     }
     else {
@@ -61,7 +64,7 @@ String Endurance::processor(const String& var){
     }
   }
   if (var == "SENSORREADING"){return String(analogRead(this->photoSensorPin));}
-  if (var == "SENSORTHRESH"){return String(this->PHOTO_SENSOR_THRESHOLD);}
+  if (var == "SENSORTHRESH"){return String(*this->PHOTO_SENSOR_THRESHOLD);}
   if (var == "LAPNUMBER") {return String(this->currentLap);}
 
   if (var == "FASTESTTIME") {return findFastestTime(this->lapTimes, this->currentLap);}
@@ -77,8 +80,8 @@ String Endurance::processor(const String& var){
       }
       else if (s == "0") {return "";}
       else if (s.toInt() <= this->currentLap) {
-        Serial.println("Lap " + String(this->currentLap - i + 1) + ": Right " + String(this->lapTimes[this->currentLap - i] / 1000.0) + " Left " + String(this->lapTimes[this->currentLap - i] / 1000.0));
-        return ("Lap " + String(this->currentLap - i + 1) + ": Right " + String(this->lapTimes[this->currentLap - i] / 1000.0) + " Left " + String(this->lapTimes[this->currentLap - i] / 1000.0));
+        //Serial.println("Lap " + String(this->currentLap - i + 1) + ": " + String(this->lapTimes[this->currentLap - i] / 1000.0));
+        return ("Lap " + String(this->currentLap - i + 1) + ": " + String(this->lapTimes[this->currentLap - i] / 1000.0));
       }
       else {
         return "";
@@ -89,6 +92,7 @@ String Endurance::processor(const String& var){
 }
 
 String Endurance::getCurrentLapTime(){
+  //Serial.println("Getting current lap time in Endurance");
   if(this->startedFirstLap){
     return "Lap " + String(this->currentLap + 1) + ": " + String((millis() - this->lastTime) / 1000.0) + " ...";
   }

@@ -13,9 +13,9 @@ class SkidPad: public RaceType{
 
   public:
     SkidPad();
-    SkidPad(int sensorPin, float debounceTime, AsyncEventSource events, String htmlFileType);
-    void init(int sensorPin, float debounceTime, AsyncEventSource events, String htmlFileType);
-    void LapTimer();
+    SkidPad(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileType);
+    void init(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileType);
+    void lapTimer();
     String processor(const String& var);
     //String findFastestTime(float timesArray[], int currentLap);
     //String findAverageTime(float timesArray[], int currentLap);

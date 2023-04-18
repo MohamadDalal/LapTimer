@@ -11,9 +11,9 @@ class Endurance: public RaceType{
 
   public:
     Endurance();
-    Endurance(int sensorPin, float debounceTime, AsyncEventSource events, String htmlFileName);
-    void init(int sensorPin, float debounceTime, AsyncEventSource events, String htmlFileName);
-    void LapTimer();
+    Endurance(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileName);
+    void init(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileName);
+    void lapTimer();
     String processor(const String& var);
     //String findFastestTime(float timesArray[], int currentLap);
     //String findAverageTime(float timesArray[], int currentLap);

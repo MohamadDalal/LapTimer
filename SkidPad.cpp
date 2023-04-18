@@ -2,21 +2,23 @@
 
 SkidPad::SkidPad(){}
 
-SkidPad::SkidPad(int sensorPin, float debounceTime, AsyncEventSource events, String htmlFileName){
-  this->init(sensorPin, debounceTime, events, htmlFileName);
+SkidPad::SkidPad(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileName){
+  this->init(sensorPin, sensorThreshold, debounceTime, events, htmlFileName);
 }
 
-void SkidPad::init(int sensorPin, float debounceTime, AsyncEventSource events, String htmlFileName){
+void SkidPad::init(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileName){
   this->photoSensorPin = sensorPin;
+  this->PHOTO_SENSOR_THRESHOLD = sensorThreshold;
   this->events = events;
   this->debounceTime = debounceTime;
   this->htmlFileName = htmlFileName;
+  this->reset();
   this->initialized = true;
 }
 
-void SkidPad::LapTimer(){
+void SkidPad::lapTimer(){
   int photoSensorValue = analogRead(this->photoSensorPin);//Læs foto sensor
-  if ((photoSensorValue > this->PHOTO_SENSOR_THRESHOLD) && (millis() > (this->lastTime + debounceTime))) { 
+  if ((photoSensorValue > *this->PHOTO_SENSOR_THRESHOLD) && (millis() > (this->lastTime + debounceTime))) { 
     Serial.print("Skid Lap Index is: "); Serial.println(this->skidLapIndex); 
     switch(this->skidLapIndex){
       case 0:
@@ -36,14 +38,14 @@ void SkidPad::LapTimer(){
         this->leftLapTimes[this->currentLap] = millis() - lastTime;
         this->lastTime = millis();
         this->currentLap = (this->currentLap + 1) % 80;
-        this->events.send("reload", "reload", millis());
+        this->events->send("reload", "reload", millis());
         break;
       default:
         Serial.println("Reached default in LapTimerSkidPad switch case. This should not be possible");
     }
     skidLapIndex = (skidLapIndex + 1)%5;
     //Send noget random for at tjekke connection (ikke nødvendigt)
-    events.send("ping", NULL, millis());
+    events->send("ping", NULL, millis());
   }
 }
 
@@ -59,7 +61,7 @@ String SkidPad::processor(const String& var){
       }
       break;
     case "SENSORREADING": return String(analogRead(this->photoSensorPin)); break;
-    case "SENSORTHRESH": return String(this->PHOTO_SENSOR_THRESHOLD); break;
+    case "SENSORTHRESH": return String(*this->PHOTO_SENSOR_THRESHOLD); break;
     case "LEFTFASTESTTIME": return this->findFastestTime(this->leftLapTimes, this->currentLap); break;
     case "LEFTAVERAGETIME": return this->findAverageTime(this->leftLapTimes, this->currentLap); break;
     case "LEFTSLOWESTTIME": return this->findSlowestTime(this->leftLapTimes, this->currentLap); break;
@@ -88,7 +90,7 @@ String SkidPad::processor(const String& var){
   }*/
   //Serial.println(var);
   if (var == "STATUS") {
-    if (this->isStarted) {
+    if (this->isStarted()) {
       return "ON";
     }
     else {
@@ -96,13 +98,13 @@ String SkidPad::processor(const String& var){
     }
   }
   if (var == "SENSORREADING"){return String(analogRead(this->photoSensorPin));}
-  if (var == "SENSORTHRESH"){return String(this->PHOTO_SENSOR_THRESHOLD);}
+  if (var == "SENSORTHRESH"){return String(*this->PHOTO_SENSOR_THRESHOLD);}
   if (var == "LAPNUMBER") {return String(this->currentLap);}
 
   if (var == "LEFTFASTESTTIME") {return findFastestTime(this->leftLapTimes, this->currentLap);}
   if (var == "LEFTAVERAGETIME") {return findAverageTime(this->leftLapTimes, this->currentLap);}
   if (var == "LEFTSLOWESTTIME") {return findSlowestTime(this->leftLapTimes, this->currentLap);}
-  if (var == "LeftDELTATIME") {return findDeltaTime(this->leftLapTimes, this->currentLap);}
+  if (var == "LEFTDELTATIME") {return findDeltaTime(this->leftLapTimes, this->currentLap);}
   //if (var == "LeftDELTATIME") {return findleftDeltaTime();}
 
   if (var == "RIGHTFASTESTTIME") {return findFastestTime(this->rightLapTimes, this->currentLap);}

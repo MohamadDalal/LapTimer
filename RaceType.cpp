@@ -1,6 +1,16 @@
 #include "RaceType.h"
 
-bool RaceType::isInitialized(){return this->initialized;};
+RaceType::RaceType(){}
+RaceType::RaceType(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileName){}
+void RaceType::init(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileName){}
+void RaceType::lapTimer(){}
+String RaceType::processor(const String& var){}
+String RaceType::getCurrentLapTime(){};
+void RaceType::reset(){}
+
+bool RaceType::isInitialized(){return this->initialized;}
+bool RaceType::isStarted(){return this->started;}
+String RaceType::getHtmlFileName(){return this->htmlFileName;}
 
 String RaceType::findFastestTime(float timesArray[], int currentLap) {
   float minValue = 100000.0;
@@ -8,8 +18,11 @@ String RaceType::findFastestTime(float timesArray[], int currentLap) {
     return "none";
   }
   for (int i = 0; i < 80; i++) {
+    //Serial.println(i);
+    //Serial.println(timesArray[i]);
     if (timesArray[i] != -1.0) {
       //Serial.println("FindFastest " + String(i+1) + ": " + String(lapTimes[i]));
+      //Serial.println(i);
       if (timesArray[i] < minValue) {
         minValue = timesArray[i];
       }
@@ -73,4 +86,19 @@ String RaceType::findDeltaTime(float timesArray[], int currentLap) {
   else {
     return String(abs(deltaTime));
   }
+}
+
+void RaceType::start(){
+  this->started = true;
+  this->lastTime = millis();
+  this->next = millis() + 5000;
+}
+
+void RaceType::stop(){
+  this->started = false;
+}
+
+void RaceType::modeSwitch(){
+  this->lastTime = millis();
+  this->next = millis() + 5000;
 }

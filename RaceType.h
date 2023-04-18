@@ -11,22 +11,24 @@ class RaceType{
     int currentLap = 0;
     //float lapTimes[80];
     float lastTime = millis();
-    bool isStarted = true;
+    bool started = true;
     //bool reset = false;
     //float lapTimeStart = 0; // Not used
     //float lastTimeDiff = 0; // Not used
-    int PHOTO_SENSOR_THRESHOLD;
+    int *PHOTO_SENSOR_THRESHOLD;
     int photoSensorPin;
     String htmlFileName;
     float debounceTime;
     float next;
-    AsyncEventSource events;
+    AsyncEventSource* events;
     
   public:
     RaceType();
-    RaceType(int sensorPin, float debounceTime, AsyncEventSource events, String htmlFileName);
-    virtual void init(int sensorPin, float debounceTime, AsyncEventSource events, String htmlFileName);
+    RaceType(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileName);
+    virtual void init(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileName);
     bool isInitialized();
+    bool isStarted();
+    String getHtmlFileName();
     virtual void lapTimer();
     virtual String processor(const String& var);
     String findFastestTime(float timesArray[], int currentLap);
@@ -34,7 +36,10 @@ class RaceType{
     String findSlowestTime(float timesArray[], int currentLap);
     String findDeltaTime(float timesArray[], int currentLap);
     virtual String getCurrentLapTime();
+    virtual void start();
+    virtual void stop();
     virtual void reset();
+    virtual void modeSwitch();
     
   
 };
