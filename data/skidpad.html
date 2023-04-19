@@ -45,11 +45,6 @@
     <ul>
       <li><p id="lapNumber" class="info"><span class="bold">Lap:</span> %LAPNUMBER%</p></li>
       <br>
-      <!--
-        <li><p id="fastesTime" class="info"><span class="bold">Fastest:</span> %FASTESTTIME%</p></li>
-        <li><p id="averageTime" class="info"><span class="bold">Average:</span> %AVERAGETIME%</p></li>
-        <li><p id="slowestTime" class="info"><span class="bold">Slowest:</span> %SLOWESTTIME%</p></li>
-      -->
       <li><button type="button" class="threshButton" id="leftInfoButton">Left Lap Info</button></li>
       <li><button type="button" class="threshButton" id="rightInfoButton">Right Lap Info</button></li>
       <br><br>
@@ -229,9 +224,7 @@
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-          //console.log(this.responseText);
           var responseJson = JSON.parse(this.responseText);
-          //console.log(this.responseJson);
           if(responseJson.status == 0){
             document.getElementById("setThreshMessage").style.color = "green";
           }
@@ -248,26 +241,12 @@
 
   document.getElementById("leftInfoButton").onclick = function(){
     console.log("Clicked left info button");
-    //document.getElementsByClassName("leftInfo").style.display = "inline";
-    //document.getElementsByClassName("rightInfo").style.display = "none";
     const leftCollection = document.getElementsByClassName("leftInfo");
     const rightCollection = document.getElementsByClassName("rightInfo");
     for (let i=0; i<leftCollection.length; i++){
       leftCollection[i].style.display = "inline-block";
       rightCollection[i].style.display = "none";
-      //leftCollection[i].style.visibility = "visible";
-      //rightCollection[i].style.visibility = "hidden";
-      //leftCollection[i].style.fontsize = "1.15em"
-      //rightCollection[i].style.fontsize = "0em"
-      /*leftCollection[i].style.marginleft = "0.5em";
-      leftCollection[i].style.marginright = "0.5em";
-      rightCollection[i].style.marginleft = "10em";
-      rightCollection[i].style.marginright = "10em";*/
-      //leftCollection[i].class = "skidInfo";
-      //rightCollection[i].class = "hiddenInfo";
     }
-    //document.getElementById("leftInfoButton").style.border = "1px solid green";
-    //document.getElementById("rightInfoButton").style.border = "1px dotted grey";
     document.getElementById("leftInfoButton").className = "selectedButton";
     document.getElementById("rightInfoButton").className = "threshButton";
   }
@@ -277,25 +256,9 @@
     const leftCollection = document.getElementsByClassName("leftInfo");
     const rightCollection = document.getElementsByClassName("rightInfo");
     for (let i=0; i<leftCollection.length; i++){
-      //leftCollection[i].class = "hiddenInfo";
-      //rightCollection[i].class = "skidInfo";
-      //leftCollection[i].style.fontsize = "0em"
-      //rightCollection[i].style.fontsize = "1.15em"
       leftCollection[i].style.display = "none";
       rightCollection[i].style.display = "inline-block";
-      //leftCollection[i].style.visibility = "hidden";
-      //rightCollection[i].style.visibility = "visible";
-      /*leftCollection[i].style.marginleft = "10em";
-      leftCollection[i].style.marginright = "10em";
-      rightCollection[i].style.marginleft = "0.5em";
-      rightCollection[i].style.marginright = "0.5em";*/
-      //leftCollection[i].style.class = "hiddenInfo";
-      //rightCollection[i].style.class = "Info";
-      //leftCollection.style.color = "red";
-      //rightCollection.style.color = "green";
     }
-    //document.getElementById("leftInfoButton").style.border = "1px dotted grey";
-    //document.getElementById("rightInfoButton").style.border = "1px solid green";
     document.getElementById("leftInfoButton").className = "threshButton";
     document.getElementById("rightInfoButton").className = "selectedButton";
   }
