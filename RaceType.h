@@ -9,12 +9,9 @@ class RaceType{
   protected:
     bool initialized = false;
     int currentLap = 0;
-    //float lapTimes[80];
     float lastTime = millis();
     bool started = true;
     //bool reset = false;
-    //float lapTimeStart = 0; // Not used
-    //float lastTimeDiff = 0; // Not used
     int *PHOTO_SENSOR_THRESHOLD;
     int photoSensorPin;
     String htmlFileName;

@@ -30,6 +30,7 @@ const char *passwordAP = "aauracing01";
      mere stabil forbindelse.
 */
 
+// Used to manage the different modes (objects) and functionalities of the timer
 enum RaceTypeIndices{
       //AutoCross = 0,
       endurance = 0,
@@ -249,7 +250,6 @@ void setup() {
 
 void loop() {
   if (currentRaceType->isStarted()){
-    //Serial.print("Starting lap timer");
     currentRaceType->lapTimer();
   }
 

@@ -18,11 +18,7 @@ String RaceType::findFastestTime(float timesArray[], int currentLap) {
     return "none";
   }
   for (int i = 0; i < 80; i++) {
-    //Serial.println(i);
-    //Serial.println(timesArray[i]);
     if (timesArray[i] != -1.0) {
-      //Serial.println("FindFastest " + String(i+1) + ": " + String(lapTimes[i]));
-      //Serial.println(i);
       if (timesArray[i] < minValue) {
         minValue = timesArray[i];
       }
@@ -41,7 +37,6 @@ String RaceType::findAverageTime(float timesArray[], int currentLap) {
     if (timesArray[i] != -1.0) {
       addedTimes += timesArray[i];
       totalTimes++;
-      //Serial.println("findAverage: currentLap: " + String(currentLap) + ", i: " + String(i) + ", Found time: " + String(lapTimes[i]));
     }
   }
   //Serial.println("AddedTimes: " + String(addedTimes) + " | TotalTimes: " + String(totalTimes));
@@ -56,7 +51,6 @@ String RaceType::findSlowestTime(float timesArray[], int currentLap) {
   }
   for (int i = 0; i < 80; i++) {
     if (timesArray[i] != -1.0) {
-      //Serial.println("FindSlowest " + String(i+1) + ": " + String(lapTimes[i]));
       if (timesArray[i] > maxValue) {
         maxValue = timesArray[i];
       }
