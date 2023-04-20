@@ -1,4 +1,5 @@
 //Inkluder relevante biblioteker
+#include <ArduinoJson.h>
 #include "WiFi.h"
 #include "ESPAsyncWebServer.h"
 #include "SPIFFS.h"
@@ -6,9 +7,15 @@
 #include "Endurance.h"
 
 //Faste værdier for ssid og password til AP.
-const char *ssidAP = "Laptime";
-const char *passwordAP = "aauracing01";
+//const char *ssidAP = "Laptime";
+//const char *passwordAP = "aauracing01";
 
+struct Settings{
+  String ssidAP;
+  String passAP;
+  String ssidSTA;
+  String passSTA;
+} settings;
 
 /*
    - SSID og password
@@ -53,7 +60,7 @@ AsyncEventSource events("/events");
 const char* PARAM_MESSAGE = "message";
 
 //SSID og password variable
-String inputSSID, inputPass;
+//String inputSSID, inputPass;
 
 
 float next = millis() + 5000;
@@ -76,6 +83,52 @@ String processor(const String& var) {
   return currentRaceType->processor(var);
 }
 
+// https://linuxhint.com/esp32-both-access-station-points/
+// https://github.com/espressif/arduino-esp32/blob/master/libraries/WiFi/examples/WiFiBlueToothSwitch/WiFiBlueToothSwitch.ino
+/*void switchWiFiMode(bool modeAP, bool modeSta){
+  if(modeAP && modeSta){
+    WiFi.mode(WIFI_AP_STA);
+    WiFi.softAP(ssidAP, passwordAP);
+    Serial.print("AP IP address: ");
+    Serial.println(WiFi.softAPIP());
+    WiFi.begin(ssidSTA, passwordSTA);
+    Serial.println("\n[*] Connecting to WiFi Network");
+    while(WiFi.status() != WL_CONNECTED)
+    {
+        Serial.print(".");
+        delay(100);
+    }
+    Serial.print("\n[+] Connected to WiFi network with local IP : ");
+    Serial.println(WiFi.localIP());
+  }
+  else if(modeAP){
+    WiFi.mode(WIFI_AP);
+    WiFi.softAP(ssidAP, passwordAP);
+    WiFi.softAP(ssidAP, passwordAP);
+    Serial.print("AP IP address: ");
+    Serial.println(WiFi.softAPIP());
+  }
+  else if(modeSta){
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(ssidSTA, passwordSTA);
+    WiFi.begin(ssidSTA, passwordSTA);
+    Serial.println("\n[*] Connecting to WiFi Network");
+    while(WiFi.status() != WL_CONNECTED)
+    {
+        Serial.print(".");
+        delay(100);
+    }
+    Serial.print("\n[+] Connected to WiFi network with local IP : ");
+    Serial.println(WiFi.localIP());
+  }
+  else{
+    // Technically if we reach this point we should turn off WiFi, but I don't wanna do that.
+    WiFi.mode(WIFI_OFF);
+    Serial.println("Turned WiFi off");
+  }
+  return;
+}*/
+
 
 // ----- MAIN WEBSERVER -----
 /*
@@ -89,7 +142,7 @@ void lapTimePage() {
   WiFi.mode(WIFI_AP);
 
   //Initialiser AP
-  WiFi.softAP(ssidAP, passwordAP);
+  WiFi.softAP(settings.ssidAP.c_str(), settings.passAP.c_str());
 
   //Få IP-addressen til forbundne netværk og print den til serial.
   IPAddress IP = WiFi.softAPIP();
@@ -236,6 +289,34 @@ void setup() {
     return;
   }
 
+  File file = SPIFFS.open("/settings.json", "r"); //Åbner filen
+  if (!file || file.isDirectory()) { //Tjekker om filen blev åbnet
+    Serial.println("READSPIFFS: Could not find the specified file");
+    return;
+  }
+  else{
+    StaticJsonDocument<1024> doc;
+    DeserializationError error = deserializeJson(doc, file);
+    if (error){
+      Serial.println("Failed to read file, using default settings");
+      settings.ssidAP = "Laptime";
+      settings.passAP = "aauracing01";
+      settings.ssidSTA = "";
+      settings.passSTA = "";
+    }
+    else{
+      Serial.print("AP ssid: ");Serial.println(doc["settingsAP"]["ssid"] | "No ssidAP");
+      settings.ssidAP = doc["settingsAP"]["ssid"].as<String>();
+      Serial.print("AP password: ");Serial.println(doc["settingsAP"]["pass"] | "No passAP");
+      settings.passAP = doc["settingsAP"]["pass"].as<String>();
+      Serial.print("STa ssid: ");Serial.println(doc["settingsSta"]["ssid"] | "No ssidSta");
+      settings.ssidSTA = doc["settingsSta"]["ssid"].as<String>();
+      Serial.print("Sta password: ");Serial.println(doc["settingsSta"]["pass"] | "No passSta");
+      settings.passSTA = doc["settingsSta"]["pass"].as<String>();
+    }
+  }
+  
+
   RaceTypes[endurance] = new Endurance(photoSensorPin, &PHOTO_SENSOR_THRESHOLD, 5000, &events, "/endurance.html");
   RaceTypes[skidPad] = new SkidPad(photoSensorPin, &PHOTO_SENSOR_THRESHOLD, 1000, &events, "/skidpad.html");
   currentRaceType = RaceTypes[endurance];
@@ -258,9 +339,9 @@ void loop() {
 
 
 /*
-  // ----- FILEHANDLING -----
-  //Læs .txt fil
-  String readSPIFFS(const char * path) {
+// ----- FILEHANDLING -----
+//Læs .txt fil
+String readSPIFFS(const char * path) {
   Serial.printf("READSPIFFS: Reading file: %s\r\n", path);
   File file = SPIFFS.open(path, "r"); //Åbner filen
   if (!file || file.isDirectory()) { //Tjekker om filen blev åbnet
@@ -276,10 +357,10 @@ void loop() {
   }
   Serial.println("READSPIFFS: " + contents);
   return contents; //returner texten som string.
-  }
+}
 
-  //Skriv .txt fil
-  void writeSPIFFS(const char * path, const char * contents) {
+//Skriv .txt fil
+void writeSPIFFS(const char * path, const char * contents) {
   Serial.printf("WRITESPIFFS: Writing file: %s\r\n", path);
   File file = SPIFFS.open(path, "w"); //Åben filen
   //Tjekker om filen kan åbnes og skrives til
@@ -299,7 +380,7 @@ void loop() {
   else {
     Serial.println("WRITESPIFFS: File write failed");
   }
-  }
+}
 
   //Tjekker om en fil eksisterer (SKAL OMSKRIVES)
   String fileChecker(String path, String content) {

@@ -1,0 +1,10 @@
+{
+    "settingsAP":{
+        "ssid":"Laptime",
+        "pass":"aauracing01"
+    },
+    "settingsSta":{
+        "ssid":"",
+        "pass":""
+    }
+}
