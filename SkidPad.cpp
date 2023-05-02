@@ -83,8 +83,8 @@ String SkidPad::processor(const String& var){
       }
       else if (s == "0") {return "";}
       else if (s.toInt() <= this->currentLap) {
-        Serial.println("Lap " + String(this->currentLap - i + 1) + ": Right " + String(this->rightLapTimes[this->currentLap - i] / 1000.0) + " Left " + String(this->leftLapTimes[this->currentLap - i] / 1000.0));
-        return ("Lap " + String(this->currentLap - i + 1) + ": Right " + String(this->rightLapTimes[this->currentLap - i] / 1000.0) + " Left " + String(this->leftLapTimes[this->currentLap - i] / 1000.0));
+        Serial.println("Lap " + String(this->currentLap - i + 1) + " Left " + String(this->leftLapTimes[this->currentLap - i] / 1000.0) + ": Right " + String(this->rightLapTimes[this->currentLap - i] / 1000.0));
+        return ("Lap " + String(this->currentLap - i + 1) + " Left " + String(this->leftLapTimes[this->currentLap - i] / 1000.0) + ": Right " + String(this->rightLapTimes[this->currentLap - i] / 1000.0));
       }
       else {
         return "";
