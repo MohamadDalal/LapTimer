@@ -138,7 +138,7 @@ void lapTimePage() {
   Serial.println();
   Serial.println("Starting AP");
 
-  //Sæt WiFi mode til AP
+  /*//Sæt WiFi mode til AP
   WiFi.mode(WIFI_AP);
 
   //Initialiser AP
@@ -147,7 +147,20 @@ void lapTimePage() {
   //Få IP-addressen til forbundne netværk og print den til serial.
   IPAddress IP = WiFi.softAPIP();
   Serial.print("AP IP address: ");
-  Serial.println(IP);
+  Serial.println(IP);*/
+
+  //Sæt WiFi mode til AP
+  WiFi.mode(WIFI_STA);
+
+  //Initialiser AP
+  WiFi.begin(settings.ssidSTA.c_str(), settings.passSTA.c_str());
+
+  Serial.print("Connecting to WiFi ..");
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print('.');
+    delay(1000);
+  }
+  Serial.println(WiFi.localIP());
 
   // ___________________SERVER RESPONSES___________________
   /*
@@ -288,7 +301,8 @@ void setup() {
     Serial.println("An error has occured with spiffs");
     return;
   }
-
+  
+  // https://arduinojson.org/v6/example/config/
   File file = SPIFFS.open("/settings.json", "r"); //Åbner filen
   if (!file || file.isDirectory()) { //Tjekker om filen blev åbnet
     Serial.println("READSPIFFS: Could not find the specified file");

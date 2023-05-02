@@ -1,0 +1,189 @@
+body {
+    background-color: #FFF;
+    font-family: 'Roboto', sans-serif;
+}
+
+header h1 {
+    font-size: 50px;
+}
+header {
+    text-align: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+p a {
+    display: inline;
+    border: 5px solid red;
+}
+
+nav {
+    text-align: center;
+}
+
+nav ul {
+    padding: 0px;
+    margin: 0.5em;
+}
+
+nav ul li {
+    display: inline-block;
+    text-align: center;
+    margin: 0 20px;
+    border: 1px dotted grey;
+    border-radius: 0.5em;
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    padding: 5px;
+}
+
+nav ul li:hover {
+    border: 1px solid black;
+}
+
+/*.settingsButton {
+    text-decoration: none;
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    background-color: transparent;
+    padding: 5px;
+    border: 0px;
+}*/
+.settingsButton {
+    display: inline-block;
+    margin: 5px 20px;
+    border: 1px dotted grey;
+    border-radius: 0.5em;
+    text-decoration: none;
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    background-color: transparent;
+    padding: 5px;
+    /*border: 0px;*/
+}
+.settingsButton:hover {
+    border: 1px solid black;
+}
+#settingsMenu {
+    height: 0vh;
+    transition: 0.1s;
+    /*background-color:beige;*/
+    border: 0px solid black;
+}
+#settingsForm{
+    display: none;
+    /*transition: 0.3s; Was useless for display changes*/
+}
+
+.laptimes {
+    text-align: center;
+}
+
+.data {
+    text-align: center;
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+}
+
+.data ul {
+    padding: 0px;
+    margin: 0.5em;
+}
+
+.data ul li {
+    display: inline-block;
+    /*margin: 0.5em;*/
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.bold {
+    font-weight: bold;
+}
+.info {
+    font-size: 1.15em;
+}
+/*.leftInfo {
+    font-size: 1.15em;
+    display: none;
+    visibility: hidden;
+}
+.rightInfo {
+    font-size: 1.15em;
+    display: none;
+    visibility: hidden;
+}*/
+/*.skidInfo{
+    font-size: 1.15em;
+    display: "inline";
+}
+.hiddenInfo{
+    font-size: 0em;
+    margin: 0em;
+    display: none;
+}*/
+
+.sensorSliderContainer {
+    margin: auto;
+    width: 90%
+}
+
+.sensorSlider{
+    width: 100%
+}
+
+.sensor {
+    text-align: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.sensorInfo {
+    text-align: center;
+}
+.sensorInfo ul {
+    padding: 0px;
+    margin: 0.5em;
+}
+
+.sensorInfo ul li {
+    display: inline-block;
+    /*margin: 0.5em;*/
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.threshButton {
+    text-decoration: none;
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    background-color: #FFF;
+    margin: 0 20px;
+    border: 1px dotted grey;
+    padding: 5px;
+    border-radius: 0.5em;
+}
+
+.threshButton:hover {
+    border: 1px solid black;
+}
+
+.selectedButton {
+    text-decoration: none;
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    background-color: #FFF;
+    margin: 0 20px;
+    border: 1px solid green;
+    padding: 5px;
+    border-radius: 0.5em;
+}

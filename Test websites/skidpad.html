@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Laptimer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <!--<button>&#x2699</button>
+  <button id="settingsButton">Settings</button>
+  <div id="settingsMenu" class="SettingsMenu">
+
+  </div>-->
+  <header>
+    <h1>Laptimer</h1>
+    <nav>
+      <!--<ul>
+        <li><button id="mainSettingsButton" class="settingsButton">Settings</button></li>
+      </ul>-->
+      <button id="mainSettingsButton" class="settingsButton">Settings</button>
+      <div id="settingsMenu" class="settingsMenu">
+        <!--<form id="settingsForm" method="post" onsubmit="return false">-->
+        <form id="settingsForm">
+          <fieldset>
+            <legend>Access point settings</legend>
+            <label for="ssidAP">SSID: </label>
+            <input id="ssidAP" name="ssidAP" value="%SSIDAP%">
+            <label for="passAP">Password: </label>
+            <!--<input id="passAP" name="passAP" type="password" value="%PASSAP%">-->
+            <input id="passAP" name="passAP" value="%PASSAP%">
+            <p>IP address: <span>%IPAP%</span></p>
+          </fieldset>
+          <fieldset>
+            <legend>Station connection settings</legend> <!-- Might need a better label -->
+            <label for="ssidAP">SSID: </label>
+            <input id="ssidAP" name="ssidAP" value="%SSIDSTA%">
+            <label for="passAP">Password: </label>
+            <input id="passAP" name="passAP" value="%PASSSTA%">
+            <p>IP address: <span>%IPSTA%</span></p>
+          </fieldset>
+          <input id="saveSettingsButton" class="settingsButton" type="submit" value="Save settings">
+        </form>
+      </div>
+      <ul>
+        <li><a href="/endurance">Endurance</a></li>
+        <li style="border: 1px solid green;"><a href="/skidpad">Skid Pad</a></li>
+      </ul>
+    </nav>
+    <nav>
+      <ul>
+          <li><a href="/start">Start</a></li>
+          <li><a href="/stop">Stop</a></li>
+          <li><a href="/reset">Reset</a></li>
+      </ul>
+    </nav>
+    <p id="status"><span class="bold">Status:</span> %STATUS%</p> 
+  </header>
+  <div class= "sensor">
+    <h2>Sensor Info</h2>
+    <div class= "sensorSliderContainer">
+      <input type="range" min="0" max="4095" class="sensorSlider" id="mySensorSlider">
+    </div>
+    <div class="sensorInfo">
+      <ul>
+        <li><p class="info"><span class="bold">Sensor Reading:</span> <span, id= "sensorReading">%SENSORREADING%</span></p></li>
+        <li><p class="info"><span class="bold">Current Threshold:</span> <span, id= "sensorThreshold">%SENSORTHRESH%</span></p></li>
+        <li><p class="info"><span class="bold">New Threshold:</span> <input type="number" id="threshold" name="threshold" min="0" max="4095"></p></li>
+        <li><button type="button" class="threshButton" id="threshButton">Set</button></li>
+        <br>
+        <li><p class="info" style="color:red;margin:auto;" id="setThreshMessage"></p></li>
+      </ul>
+    </div>
+  </div>
+  <div class="data">
+    <h2 style="margin:0.5em;">Time Measurements</h2>
+    <ul>
+      <li><p id="lapNumber" class="info"><span class="bold">Lap:</span> %LAPNUMBER%</p></li>
+      <br>
+      <li><button type="button" class="threshButton" id="leftInfoButton">Left Lap Info</button></li>
+      <li><button type="button" class="threshButton" id="rightInfoButton">Right Lap Info</button></li>
+      <br><br>
+      <li class="leftInfo" style="display: none;"><p id="leftFastesTime" class="info"><span class="bold">Fastest:</span> %LEFTFASTESTTIME%</p></li>
+      <li class="leftInfo" style="display: none;"><p id="leftAverageTime" class="info"><span class="bold">Average:</span> %LEFTAVERAGETIME%</p></li>
+      <li class="leftInfo" style="display: none;"><p id="leftSlowestTime" class="info"><span class="bold">Slowest:</span> %LEFTSLOWESTTIME%</p></li>
+      
+      <li class="rightInfo" style="display: none;"><p id="rightFastesTime" class="info"><span class="bold">Fastest:</span> %RIGHTFASTESTTIME%</p></li>
+      <li class="rightInfo" style="display: none;"><p id="rightAverageTime" class="info"><span class="bold">Average:</span> %RIGHTAVERAGETIME%</p></li>
+      <li class="rightInfo" style="display: none;"><p id="rightSlowestTime" class="info"><span class="bold">Slowest:</span> %RIGHTSLOWESTTIME%</p></li>
+    </ul>
+    
+    <ul>
+        <li><p id="leftDelta" class="Info"><span class="bold">Left Delta:</span> <span id="leftDeltaValue">%LEFTDELTATIME%</span></p></li>
+        <li><p id="rightDelta" class="Info"><span class="bold">Right Delta:</span> <span id="rightDeltaValue">%RIGHTDELTATIME%</span></p></li>
+    </ul>
+    
+  </div>
+
+  <section class="laptimes">
+    <p id="0">%0%</p>
+    <p id="1">%1%</p>
+    <p id="2">%2%</p>
+    <p id="3">%3%</p>
+    <p id="4">%4%</p>
+    <p id="5">%5%</p>
+    <p id="6">%6%</p>
+    <p id="7">%7%</p>
+    <p id="8">%8%</p>
+    <p id="9">%9%</p>
+    <p id="10">%10%</p>
+    <p id="11">%11%</p>
+    <p id="12">%12%</p>
+    <p id="13">%13%</p>
+    <p id="14">%14%</p>
+    <p id="15">%15%</p>
+    <p id="16">%16%</p>
+    <p id="17">%17%</p>
+    <p id="18">%18%</p>
+    <p id="19">%19%</p>
+    <p id="20">%20%</p>
+    <p id="21">%21%</p>
+    <p id="22">%22%</p>
+    <p id="23">%23%</p>
+    <p id="24">%24%</p>
+    <p id="25">%25%</p>
+    <p id="26">%26%</p>
+    <p id="27">%27%</p>
+    <p id="28">%28%</p>
+    <p id="29">%29%</p>
+    <p id="30">%30%</p>
+    <p id="31">%31%</p>
+    <p id="32">%32%</p>
+    <p id="33">%33%</p>
+    <p id="34">%34%</p>
+    <p id="35">%35%</p>
+    <p id="36">%36%</p>
+    <p id="37">%37%</p>
+    <p id="38">%38%</p>
+    <p id="39">%39%</p>
+    <p id="40">%40%</p>
+    <p id="41">%41%</p>
+    <p id="42">%42%</p>
+    <p id="43">%43%</p>
+    <p id="44">%44%</p>
+    <p id="45">%45%</p>
+    <p id="46">%46%</p>
+    <p id="47">%47%</p>
+    <p id="48">%48%</p>
+    <p id="49">%49%</p>
+    <p id="50">%50%</p>
+    <p>%51%</p>
+    <p>%52%</p>
+    <p>%53%</p>
+    <p>%54%</p>
+    <p>%55%</p>
+    <p>%56%</p>
+    <p>%57%</p>
+    <p>%58%</p>
+    <p>%59%</p>
+    <p>%60%</p>
+    <p>%61%</p>
+    <p>%62%</p>
+    <p>%63%</p>
+    <p>%64%</p>
+    <p>%65%</p>
+    <p>%66%</p>
+    <p>%67%</p>
+    <p>%68%</p>
+    <p>%69%</p>
+    <p>%70%</p>
+    <p>%71%</p>
+    <p>%72%</p>
+    <p>%73%</p>
+    <p>%74%</p>
+    <p>%75%</p>
+    <p>%76%</p>
+    <p>%77%</p>
+    <p>%78%</p>
+    <p>%79%</p>
+    <p>%80%</p>
+  </section>
+</body>
+
+<script>
+  /*
+    En masse events som klienterne lytter på
+  */
+  if (!!window.EventSource) {
+    var source = new EventSource('/events');
+    
+    //Event hvis man vil logge at klienten er forbundet.
+    source.addEventListener('open', function(e) {
+      console.log("Events Connected");
+    }, false);
+
+    //Event til at logge at der er sket en fejl.
+    source.addEventListener('error', function(e) {
+      if (e.target.readyState != EventSource.OPEN) {
+        console.log("Events Disconnected");
+      }
+    }, false);
+    
+    //Event hvis man vil logge en besked til konsollen.
+    source.addEventListener('message', function(e) {
+      console.log("message", e.data);
+    }, false);
+
+    //Event til at reloade klientens side så den opdaterer info.
+    source.addEventListener('reload', function(e) {
+      console.log("message", e.data);
+      window.location.replace("/");
+    }, false);
+
+    //Event til at opdatere timer status.
+    source.addEventListener('status', function(e) {
+      console.log("status", e.data);
+      document.getElementById("status").innerHTML = e.data;
+      
+    }, false);
+
+    /*setInterval(function ( ) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("0").innerHTML = this.responseText;
+        }
+      };
+      xhttp.open("GET", "/getCurrentLapTime", true);
+      xhttp.send();
+    }, 1000 ) ;
+
+    setInterval(function ( ) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("sensorReading").innerHTML = this.responseText;
+        }
+      };
+      xhttp.open("GET", "/getSensorReading", true);
+      xhttp.send();
+    }, 100 ) ;*/
+
+    document.getElementById("settingsForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const xhttp = new XMLHttpRequest();
+      const FD = new FormData(document.getElementById("settingsForm"));
+      /*for (var pair of FD.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]); 
+      }*/
+      //console.log(event.target.responseText);
+
+      // Define what happens on successful data submission
+      xhttp.addEventListener("load", (event) => {
+        //alert(event.target.responseText);
+        console.log(event.target.responseText);
+      });
+
+      // Define what happens in case of error
+      xhttp.addEventListener("error", (event) => {
+        alert('Oops! Something went wrong.');
+      });
+
+      xhttp.open("PUT", "/settings", true);
+      xhttp.send(FD);
+    });
+  }
+  var settingsButtonPressed = false;
+  document.getElementById("mainSettingsButton").onclick = function(){
+    if(settingsButtonPressed){
+      document.getElementById("settingsForm").style.display = "none";
+      //document.getElementById("settingsMenu").style.height = "0em";
+      document.getElementById("settingsMenu").style.height = document.getElementById("settingsForm").offsetHeight +"px" ;
+      //document.getElementById("settingsMenu").style.width = document.getElementById("settingsForm").offsetWidth +"px" ;
+      document.getElementById("settingsMenu").style.borderWidth = "0px";
+      settingsButtonPressed = false;
+    }
+    else{
+      document.getElementById("settingsForm").style.display = "inline-block";
+      console.log(document.getElementById("settingsForm").offsetHeight);
+      //document.getElementById("settingsMenu").style.height = "40vh";
+      document.getElementById("settingsMenu").style.height = document.getElementById("settingsForm").offsetHeight +"px" ;
+      //document.getElementById("settingsMenu").style.width = document.getElementById("settingsForm").offsetWidth +"px" ;
+      document.getElementById("settingsMenu").style.borderWidth = "1px";
+      settingsButtonPressed = true;
+    }
+  }
+
+  // Source: https://stackoverflow.com/a/45650898/19151548
+  // So that pressing enter sets the threshold (Works only on computers)
+  document.getElementById("threshold").addEventListener("keyup", function(e) {
+    if(event.key !== "Enter") return;
+    document.getElementById("threshButton").click();
+    event.preventDefault();
+  })
+  // Function activated when the set threshold button is pressed
+  // Sends a PUT request to the ESP32, and then displays the response message when failed
+  document.getElementById("threshButton").onclick = function(){
+      var threshBox = document.getElementById("threshold");
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var responseJson = JSON.parse(this.responseText);
+          if(responseJson.status == 0){
+            document.getElementById("setThreshMessage").style.color = "green";
+          }
+          else{
+            document.getElementById("setThreshMessage").style.color = "red";
+            document.getElementById("setThreshMessage").innerHTML = responseJson.message;
+          }
+        }
+      };
+      xhttp.open("PUT", "/setSensorThreshold", true);
+      xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhttp.send("message="+threshBox.value);
+    }
+
+  document.getElementById("leftInfoButton").onclick = function(){
+    console.log("Clicked left info button");
+    const leftCollection = document.getElementsByClassName("leftInfo");
+    const rightCollection = document.getElementsByClassName("rightInfo");
+    for (let i=0; i<leftCollection.length; i++){
+      leftCollection[i].style.display = "inline-block";
+      rightCollection[i].style.display = "none";
+    }
+    document.getElementById("leftInfoButton").className = "selectedButton";
+    document.getElementById("rightInfoButton").className = "threshButton";
+  }
+
+  document.getElementById("rightInfoButton").onclick = function(){
+    console.log("Clicked right info button");
+    const leftCollection = document.getElementsByClassName("leftInfo");
+    const rightCollection = document.getElementsByClassName("rightInfo");
+    for (let i=0; i<leftCollection.length; i++){
+      leftCollection[i].style.display = "none";
+      rightCollection[i].style.display = "inline-block";
+    }
+    document.getElementById("leftInfoButton").className = "threshButton";
+    document.getElementById("rightInfoButton").className = "selectedButton";
+  }
+
+  //Sæt farven af deltaTime
+  var leftValue = document.getElementById("leftDelta").innerHTML;
+  if(leftValue.includes("+")) {
+    document.getElementById("leftDelta").style.color = "#ff0000";
+  }
+  else if(leftValue.includes("-")) {
+    document.getElementById("leftDelta").style.color = "#008000";
+  }
+  else {
+    document.getElementById("leftDelta").style.color = "#000000";
+  }
+  var rightValue = document.getElementById("rightDelta").innerHTML;
+  if(rightValue.includes("+")) {
+    document.getElementById("rightDelta").style.color = "#ff0000";
+  }
+  else if(rightValue.includes("-")) {
+    document.getElementById("rightDelta").style.color = "#008000";
+  }
+  else {
+    document.getElementById("rightDelta").style.color = "#000000";
+  }
+
+  // Få linket værdien mellem slideren og input boksen til sensor threshold
+  var threshCurrent = document.getElementById("sensorThreshold")
+  var threshSlider = document.getElementById("mySensorSlider");
+  var threshBox = document.getElementById("threshold");
+  threshSlider.value = threshCurrent.innerHTML;
+  threshBox.value = threshSlider.value;
+  threshSlider.oninput = function() {
+    threshBox.value = threshSlider.value;
+  }
+  threshBox.oninput = function() {
+    threshSlider.value = threshBox.value;
+  }
+</script>
+</html>
