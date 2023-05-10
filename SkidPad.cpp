@@ -83,8 +83,14 @@ String SkidPad::processor(const String& var){
       }
       else if (s == "0") {return "";}
       else if (s.toInt() <= this->currentLap) {
-        Serial.println("Lap " + String(this->currentLap - i + 1) + ": Right " + String(this->rightLapTimes[this->currentLap - i] / 1000.0) + " Left " + String(this->leftLapTimes[this->currentLap - i] / 1000.0));
-        return ("Lap " + String(this->currentLap - i + 1) + ": Right " + String(this->rightLapTimes[this->currentLap - i] / 1000.0) + " Left " + String(this->leftLapTimes[this->currentLap - i] / 1000.0));
+        if(this->leftLapTimes[this->currentLap - i] == -1.0){
+          Serial.println("Lap " + String(this->currentLap - i + 1) + ": Failed");
+          return ("Lap " + String(this->currentLap - i + 1) + ": Failed");
+        }
+        else{
+          Serial.println("Lap " + String(this->currentLap - i + 1) + ": Left " + String(this->leftLapTimes[this->currentLap - i] / 1000.0) + " Right " + String(this->rightLapTimes[this->currentLap - i] / 1000.0));
+          return ("Lap " + String(this->currentLap - i + 1) + ": Left " + String(this->leftLapTimes[this->currentLap - i] / 1000.0) + " Right " + String(this->rightLapTimes[this->currentLap - i] / 1000.0));
+        }
       }
       else {
         return "";
@@ -117,6 +123,14 @@ String SkidPad::getCurrentLapTime(){
       break;
   }
   return returnString;
+}
+
+void SkidPad::failLap(){
+  this->rightLapTimes[this->currentLap - 1] = -1.0;
+  this->leftLapTimes[this->currentLap - 1] = -1.0;
+  this->rightLapTimes[this->currentLap] = -1.0;
+  this->leftLapTimes[this->currentLap] = -1.0;
+  this->skidLapIndex = 0;
 }
 
 void SkidPad::reset(){

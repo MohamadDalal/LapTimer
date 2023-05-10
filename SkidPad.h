@@ -19,6 +19,7 @@ class SkidPad: public RaceType{
     String processor(const String& var);
     String getCurrentLapTime();
     void reset();
+    void failLap();
   
 };
 

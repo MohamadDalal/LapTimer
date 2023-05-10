@@ -1,0 +1,322 @@
+21:45:05.021 -> Starting AP
+21:45:05.209 -> Connecting to WiFi .....192.168.0.103
+21:45:08.209 ->  AP Server started
+21:45:37.522 -> Client reconnected! Last message ID that it got is: 1204332
+21:46:02.034 -> Starting first lap
+21:46:07.055 -> Lap 0: 1.97
+21:46:17.578 -> Skid Lap Index is: 0
+21:46:18.561 -> Skid Lap Index is: 1
+21:46:19.586 -> Skid Lap Index is: 2
+21:46:20.604 -> Skid Lap Index is: 3
+21:46:21.584 -> Skid Lap Index is: 4
+21:46:21.866 -> Lap 1 Left 1.00: Right 1.00
+21:46:22.618 -> Skid Lap Index is: 0
+21:46:23.610 -> Skid Lap Index is: 1
+21:46:24.599 -> Skid Lap Index is: 2
+21:46:25.636 -> Skid Lap Index is: 3
+21:46:26.592 -> Skid Lap Index is: 4
+21:46:26.870 -> totalTimes: 2 | lastLap=1003.00 | lap before that=1005.00
+21:46:26.870 -> totalTimes: 2 | lastLap=1004.00 | lap before that=1005.00
+21:46:26.870 -> Lap 2 Left 1.00: Right 1.00
+21:46:26.870 -> Lap 1 Left 1.00: Right 1.00
+21:46:27.620 -> Skid Lap Index is: 0
+21:46:28.604 -> Skid Lap Index is: 1
+21:46:33.164 -> Skid Lap Index is: 2
+21:46:36.629 -> Skid Lap Index is: 3
+21:46:37.759 -> Skid Lap Index is: 4
+21:46:37.898 -> totalTimes: 3 | lastLap=1156.00 | lap before that=1003.00
+21:46:37.898 -> totalTimes: 3 | lastLap=4535.00 | lap before that=1004.00
+21:46:37.898 -> Lap 3 Left 1.16: Right 4.54
+21:46:37.898 -> Lap 2 Left 1.00: Right 1.00
+21:46:37.898 -> Lap 1 Left 1.00: Right 1.00
+21:46:40.237 -> Skid Lap Index is: 0
+21:46:43.020 -> Skid Lap Index is: 1
+21:46:45.730 -> Skid Lap Index is: 2
+21:46:46.716 -> Skid Lap Index is: 3
+21:46:53.257 -> Skid Lap Index is: 4
+21:46:57.773 -> totalTimes: 4 | lastLap=6512.00 | lap before that=1156.00
+21:46:57.773 -> totalTimes: 4 | lastLap=2692.00 | lap before that=4535.00
+21:46:57.819 -> Lap 4 Left 6.51: Right 2.69
+21:46:57.819 -> Lap 3 Left 1.16: Right 4.54
+21:46:57.819 -> Lap 2 Left 1.00: Right 1.00
+21:46:57.819 -> Lap 1 Left 1.00: Right 1.00
+21:47:03.105 -> Skid Lap Index is: 0
+21:47:04.697 -> Skid Lap Index is: 1
+21:47:05.955 -> Skid Lap Index is: 2
+21:47:08.007 -> Skid Lap Index is: 3
+21:47:09.036 -> Skid Lap Index is: 4
+21:47:10.389 -> Skid Lap Index is: 0
+21:47:12.449 -> Skid Lap Index is: 1
+21:47:13.533 -> Skid Lap Index is: 2
+21:47:17.275 -> Skid Lap Index is: 3
+21:47:19.621 -> Skid Lap Index is: 4
+21:47:20.606 -> Skid Lap Index is: 0
+21:47:45.574 -> totalTimes: 6 | lastLap=2330.00 | lap before that=1010.00
+21:47:45.574 -> totalTimes: 6 | lastLap=1110.00 | lap before that=1240.00
+21:47:45.574 -> Lap 6 Left 2.33: Right 1.11
+21:47:45.574 -> Lap 5 Left 1.01: Right 1.24
+21:47:45.574 -> Lap 4 Left 6.51: Right 2.69
+21:47:45.574 -> Lap 3 Left 1.16: Right 4.54
+21:47:45.574 -> Lap 2 Left 1.00: Right 1.00
+21:47:45.574 -> Lap 1 Left 1.00: Right 1.00
+21:49:17.436 -> totalTimes: 6 | lastLap=2330.00 | lap before that=1010.00
+21:49:17.436 -> totalTimes: 6 | lastLap=1110.00 | lap before that=1240.00
+21:49:17.436 -> Lap 6 Left 2.33: Right 1.11
+21:49:17.436 -> Lap 5 Left 1.01: Right 1.24
+21:49:17.436 -> Lap 4 Left 6.51: Right 2.69
+21:49:17.436 -> Lap 3 Left 1.16: Right 4.54
+21:49:17.436 -> Lap 2 Left 1.00: Right 1.00
+21:49:17.436 -> Lap 1 Left 1.00: Right 1.00
+21:49:27.986 -> Skid Lap Index is: 1
+21:49:29.210 -> Skid Lap Index is: 2
+21:49:30.614 -> Skid Lap Index is: 3
+21:49:32.264 -> Skid Lap Index is: 4
+21:49:33.574 -> Skid Lap Index is: 0
+21:49:34.944 -> Skid Lap Index is: 1
+21:49:36.446 -> Skid Lap Index is: 2
+21:49:37.858 -> Skid Lap Index is: 3
+21:49:40.166 -> Skid Lap Index is: 4
+21:49:49.051 -> Skid Lap Index is: 0
+21:49:50.267 -> Skid Lap Index is: 1
+21:50:01.753 -> totalTimes: 8 | lastLap=2310.00 | lap before that=1620.00
+21:50:01.753 -> totalTimes: 8 | lastLap=1500.00 | lap before that=1220.00
+21:50:01.799 -> Lap 8 Left 2.31: Right 1.50
+21:50:01.799 -> Lap 7 Left 1.62: Right 1.22
+21:50:01.799 -> Lap 6 Left 2.33: Right 1.11
+21:50:01.799 -> Lap 5 Left 1.01: Right 1.24
+21:50:01.799 -> Lap 4 Left 6.51: Right 2.69
+21:50:01.799 -> Lap 3 Left 1.16: Right 4.54
+21:50:01.799 -> Lap 2 Left 1.00: Right 1.00
+21:50:01.799 -> Lap 1 Left 1.00: Right 1.00
+21:50:20.625 -> totalTimes: 8 | lastLap=2310.00 | lap before that=1620.00
+21:50:20.672 -> totalTimes: 8 | lastLap=1500.00 | lap before that=1220.00
+21:50:20.672 -> Lap 8 Left 2.31: Right 1.50
+21:50:20.672 -> Lap 7 Left 1.62: Right 1.22
+21:50:20.672 -> Lap 6 Left 2.33: Right 1.11
+21:50:20.672 -> Lap 5 Left 1.01: Right 1.24
+21:50:20.672 -> Lap 4 Left 6.51: Right 2.69
+21:50:20.672 -> Lap 3 Left 1.16: Right 4.54
+21:50:20.672 -> Lap 2 Left 1.00: Right 1.00
+21:50:20.672 -> Lap 1 Left 1.00: Right 1.00
+21:50:24.034 -> totalTimes: 8 | lastLap=2310.00 | lap before that=1620.00
+21:50:24.034 -> totalTimes: 8 | lastLap=1500.00 | lap before that=1220.00
+21:50:24.034 -> Lap 8 Left 2.31: Right 1.50
+21:50:24.034 -> Lap 7 Left 1.62: Right 1.22
+21:50:24.034 -> Lap 6 Left 2.33: Right 1.11
+21:50:24.034 -> Lap 5 Left 1.01: Right 1.24
+21:50:24.034 -> Lap 4 Left 6.51: Right 2.69
+21:50:24.034 -> Lap 3 Left 1.16: Right 4.54
+21:50:24.034 -> Lap 2 Left 1.00: Right 1.00
+21:50:24.034 -> Lap 1 Left 1.00: Right 1.00
+21:50:28.371 -> Skid Lap Index is: 2
+21:50:32.315 -> Skid Lap Index is: 3
+21:50:35.357 -> Skid Lap Index is: 4
+21:50:35.496 -> totalTimes: 9 | lastLap=3060.00 | lap before that=2310.00
+21:50:35.496 -> totalTimes: 9 | lastLap=38113.00 | lap before that=1500.00
+21:50:35.496 -> Lap 9 Left 3.06: Right 38.11
+21:50:35.496 -> Lap 8 Left 2.31: Right 1.50
+21:50:35.496 -> Lap 7 Left 1.62: Right 1.22
+21:50:35.496 -> Lap 6 Left 2.33: Right 1.11
+21:50:35.496 -> Lap 5 Left 1.01: Right 1.24
+21:50:35.496 -> Lap 4 Left 6.51: Right 2.69
+21:50:35.496 -> Lap 3 Left 1.16: Right 4.54
+21:50:35.496 -> Lap 2 Left 1.00: Right 1.00
+21:50:35.496 -> Lap 1 Left 1.00: Right 1.00
+21:50:35.543 -> totalTimes: 9 | lastLap=3060.00 | lap before that=2310.00
+21:50:35.543 -> totalTimes: 9 | lastLap=38113.00 | lap before that=1500.00
+21:50:35.588 -> Lap 9 Left 3.06: Right 38.11
+21:50:35.588 -> Lap 8 Left 2.31: Right 1.50
+21:50:35.588 -> Lap 7 Left 1.62: Right 1.22
+21:50:35.588 -> Lap 6 Left 2.33: Right 1.11
+21:50:35.588 -> Lap 5 Left 1.01: Right 1.24
+21:50:35.588 -> Lap 4 Left 6.51: Right 2.69
+21:50:35.588 -> Lap 3 Left 1.16: Right 4.54
+21:50:35.588 -> Lap 2 Left 1.00: Right 1.00
+21:50:35.588 -> Lap 1 Left 1.00: Right 1.00
+21:50:36.755 -> Skid Lap Index is: 0
+21:50:45.628 -> totalTimes: 8 | lastLap=2310.00 | lap before that=1620.00
+21:50:45.628 -> totalTimes: 8 | lastLap=1500.00 | lap before that=1220.00
+21:50:45.675 -> Lap 9Failed
+21:50:45.675 -> Lap 8 Left 2.31: Right 1.50
+21:50:45.675 -> Lap 7 Left 1.62: Right 1.22
+21:50:45.675 -> Lap 6 Left 2.33: Right 1.11
+21:50:45.675 -> Lap 5 Left 1.01: Right 1.24
+21:50:45.675 -> Lap 4 Left 6.51: Right 2.69
+21:50:45.675 -> Lap 3 Left 1.16: Right 4.54
+21:50:45.675 -> Lap 2 Left 1.00: Right 1.00
+21:50:45.675 -> Lap 1 Left 1.00: Right 1.00
+21:50:45.816 -> totalTimes: 8 | lastLap=2310.00 | lap before that=1620.00
+21:50:45.816 -> totalTimes: 8 | lastLap=1500.00 | lap before that=1220.00
+21:50:45.864 -> Lap 9Failed
+21:50:45.864 -> Lap 8 Left 2.31: Right 1.50
+21:50:45.864 -> Lap 7 Left 1.62: Right 1.22
+21:50:45.864 -> Lap 6 Left 2.33: Right 1.11
+21:50:45.864 -> Lap 5 Left 1.01: Right 1.24
+21:50:45.864 -> Lap 4 Left 6.51: Right 2.69
+21:50:45.864 -> Lap 3 Left 1.16: Right 4.54
+21:50:45.864 -> Lap 2 Left 1.00: Right 1.00
+21:50:45.864 -> Lap 1 Left 1.00: Right 1.00
+21:50:56.813 -> Skid Lap Index is: 0
+21:50:57.809 -> Skid Lap Index is: 1
+21:50:58.835 -> Skid Lap Index is: 2
+21:50:59.956 -> Skid Lap Index is: 3
+21:51:00.984 -> Skid Lap Index is: 4
+21:51:01.079 -> totalTimes: 9 | lastLap=-1.00 | lap before that=2310.00
+21:51:01.079 -> totalTimes: 9 | lastLap=-1.00 | lap before that=1500.00
+21:51:01.079 -> Lap 10 Left 1.04: Right 1.00
+21:51:01.079 -> Lap 9Failed
+21:51:01.079 -> Lap 8 Left 2.31: Right 1.50
+21:51:01.126 -> Lap 7 Left 1.62: Right 1.22
+21:51:01.126 -> Lap 6 Left 2.33: Right 1.11
+21:51:01.126 -> Lap 5 Left 1.01: Right 1.24
+21:51:01.126 -> Lap 4 Left 6.51: Right 2.69
+21:51:01.126 -> Lap 3 Left 1.16: Right 4.54
+21:51:01.126 -> Lap 2 Left 1.00: Right 1.00
+21:51:01.126 -> Lap 1 Left 1.00: Right 1.00
+21:51:01.173 -> totalTimes: 9 | lastLap=-1.00 | lap before that=2310.00
+21:51:01.173 -> totalTimes: 9 | lastLap=-1.00 | lap before that=1500.00
+21:51:01.173 -> Lap 10 Left 1.04: Right 1.00
+21:51:01.173 -> Lap 9Failed
+21:51:01.173 -> Lap 8 Left 2.31: Right 1.50
+21:51:01.173 -> Lap 7 Left 1.62: Right 1.22
+21:51:01.173 -> Lap 6 Left 2.33: Right 1.11
+21:51:01.173 -> Lap 5 Left 1.01: Right 1.24
+21:51:01.173 -> Lap 4 Left 6.51: Right 2.69
+21:51:01.173 -> Lap 3 Left 1.16: Right 4.54
+21:51:01.173 -> Lap 2 Left 1.00: Right 1.00
+21:51:01.173 -> Lap 1 Left 1.00: Right 1.00
+21:51:14.829 -> Skid Lap Index is: 0
+21:51:17.133 -> totalTimes: 8 | lastLap=2310.00 | lap before that=1620.00
+21:51:17.133 -> totalTimes: 8 | lastLap=1500.00 | lap before that=1220.00
+21:51:17.133 -> Lap 10Failed
+21:51:17.133 -> Lap 9Failed
+21:51:17.133 -> Lap 8 Left 2.31: Right 1.50
+21:51:17.133 -> Lap 7 Left 1.62: Right 1.22
+21:51:17.133 -> Lap 6 Left 2.33: Right 1.11
+21:51:17.133 -> Lap 5 Left 1.01: Right 1.24
+21:51:17.133 -> Lap 4 Left 6.51: Right 2.69
+21:51:17.133 -> Lap 3 Left 1.16: Right 4.54
+21:51:17.133 -> Lap 2 Left 1.00: Right 1.00
+21:51:17.133 -> Lap 1 Left 1.00: Right 1.00
+21:51:17.274 -> totalTimes: 8 | lastLap=2310.00 | lap before that=1620.00
+21:51:17.274 -> totalTimes: 8 | lastLap=1500.00 | lap before that=1220.00
+21:51:17.274 -> Lap 10Failed
+21:51:17.274 -> Lap 9Failed
+21:51:17.274 -> Lap 8 Left 2.31: Right 1.50
+21:51:17.274 -> Lap 7 Left 1.62: Right 1.22
+21:51:17.274 -> Lap 6 Left 2.33: Right 1.11
+21:51:17.274 -> Lap 5 Left 1.01: Right 1.24
+21:51:17.274 -> Lap 4 Left 6.51: Right 2.69
+21:51:17.274 -> Lap 3 Left 1.16: Right 4.54
+21:51:17.274 -> Lap 2 Left 1.00: Right 1.00
+21:51:17.320 -> Lap 1 Left 1.00: Right 1.00
+21:51:17.320 -> totalTimes: 8 | lastLap=2310.00 | lap before that=1620.00
+21:51:17.367 -> totalTimes: 8 | lastLap=1500.00 | lap before that=1220.00
+21:51:17.367 -> Lap 10Failed
+21:51:17.367 -> Lap 9Failed
+21:51:17.367 -> Lap 8 Left 2.31: Right 1.50
+21:51:17.367 -> Lap 7 Left 1.62: Right 1.22
+21:51:17.367 -> Lap 6 Left 2.33: Right 1.11
+21:51:17.367 -> Lap 5 Left 1.01: Right 1.24
+21:51:17.367 -> Lap 4 Left 6.51: Right 2.69
+21:51:17.367 -> Lap 3 Left 1.16: Right 4.54
+21:51:17.367 -> Lap 2 Left 1.00: Right 1.00
+21:51:17.367 -> Lap 1 Left 1.00: Right 1.00
+21:51:18.821 -> Skid Lap Index is: 0
+21:51:19.992 -> Skid Lap Index is: 1
+21:51:21.026 -> Skid Lap Index is: 2
+21:51:23.441 -> Skid Lap Index is: 3
+21:51:25.145 -> Skid Lap Index is: 4
+21:51:25.475 -> totalTimes: 9 | lastLap=-1.00 | lap before that=2310.00
+21:51:25.475 -> totalTimes: 9 | lastLap=-1.00 | lap before that=1500.00
+21:51:25.475 -> Lap 11 Left 1.68: Right 1.04
+21:51:25.475 -> Lap 10Failed
+21:51:25.475 -> Lap 9Failed
+21:51:25.475 -> Lap 8 Left 2.31: Right 1.50
+21:51:25.475 -> Lap 7 Left 1.62: Right 1.22
+21:51:25.475 -> Lap 6 Left 2.33: Right 1.11
+21:51:25.475 -> Lap 5 Left 1.01: Right 1.24
+21:51:25.475 -> Lap 4 Left 6.51: Right 2.69
+21:51:25.475 -> Lap 3 Left 1.16: Right 4.54
+21:51:25.475 -> Lap 2 Left 1.00: Right 1.00
+21:51:25.475 -> Lap 1 Left 1.00: Right 1.00
+21:51:25.521 -> totalTimes: 9 | lastLap=-1.00 | lap before that=2310.00
+21:51:25.521 -> totalTimes: 9 | lastLap=-1.00 | lap before that=1500.00
+21:51:25.569 -> Lap 11 Left 1.68: Right 1.04
+21:51:25.569 -> Lap 10Failed
+21:51:25.569 -> Lap 9Failed
+21:51:25.569 -> Lap 8 Left 2.31: Right 1.50
+21:51:25.569 -> Lap 7 Left 1.62: Right 1.22
+21:51:25.569 -> Lap 6 Left 2.33: Right 1.11
+21:51:25.569 -> Lap 5 Left 1.01: Right 1.24
+21:51:25.569 -> Lap 4 Left 6.51: Right 2.69
+21:51:25.569 -> Lap 3 Left 1.16: Right 4.54
+21:51:25.569 -> Lap 2 Left 1.00: Right 1.00
+21:51:25.569 -> Lap 1 Left 1.00: Right 1.00
+21:51:37.929 -> Skid Lap Index is: 0
+21:51:40.890 -> Skid Lap Index is: 1
+21:51:42.623 -> Skid Lap Index is: 2
+21:51:45.765 -> Skid Lap Index is: 3
+21:51:50.612 -> Skid Lap Index is: 4
+21:51:50.893 -> totalTimes: 10 | lastLap=-1.00 | lap before that=-1.00
+21:51:50.893 -> totalTimes: 10 | lastLap=-1.00 | lap before that=-1.00
+21:51:50.893 -> Lap 12 Left 4.84: Right 1.73
+21:51:50.893 -> Lap 11 Left 1.68: Right 1.04
+21:51:50.893 -> Lap 10Failed
+21:51:50.893 -> Lap 9Failed
+21:51:50.893 -> Lap 8 Left 2.31: Right 1.50
+21:51:50.893 -> Lap 7 Left 1.62: Right 1.22
+21:51:50.893 -> Lap 6 Left 2.33: Right 1.11
+21:51:50.893 -> Lap 5 Left 1.01: Right 1.24
+21:51:50.893 -> Lap 4 Left 6.51: Right 2.69
+21:51:50.893 -> Lap 3 Left 1.16: Right 4.54
+21:51:50.893 -> Lap 2 Left 1.00: Right 1.00
+21:51:50.893 -> Lap 1 Left 1.00: Right 1.00
+21:51:50.940 -> totalTimes: 10 | lastLap=-1.00 | lap before that=-1.00
+21:51:50.987 -> totalTimes: 10 | lastLap=-1.00 | lap before that=-1.00
+21:51:50.987 -> Lap 12 Left 4.84: Right 1.73
+21:51:50.987 -> Lap 11 Left 1.68: Right 1.04
+21:51:50.987 -> Lap 10Failed
+21:51:50.987 -> Lap 9Failed
+21:51:50.987 -> Lap 8 Left 2.31: Right 1.50
+21:51:50.987 -> Lap 7 Left 1.62: Right 1.22
+21:51:50.987 -> Lap 6 Left 2.33: Right 1.11
+21:51:50.987 -> Lap 5 Left 1.01: Right 1.24
+21:51:50.987 -> Lap 4 Left 6.51: Right 2.69
+21:51:50.987 -> Lap 3 Left 1.16: Right 4.54
+21:51:50.987 -> Lap 2 Left 1.00: Right 1.00
+21:51:50.987 -> Lap 1 Left 1.00: Right 1.00
+21:54:57.120 -> totalTimes: 10 | lastLap=-1.00 | lap before that=-1.00
+21:54:57.120 -> totalTimes: 10 | lastLap=-1.00 | lap before that=-1.00
+21:54:57.120 -> Lap 12 Left 4.84: Right 1.73
+21:54:57.120 -> Lap 11 Left 1.68: Right 1.04
+21:54:57.168 -> Lap 10Failed
+21:54:57.168 -> Lap 9Failed
+21:54:57.168 -> Lap 8 Left 2.31: Right 1.50
+21:54:57.168 -> Lap 7 Left 1.62: Right 1.22
+21:54:57.168 -> Lap 6 Left 2.33: Right 1.11
+21:54:57.168 -> Lap 5 Left 1.01: Right 1.24
+21:54:57.168 -> Lap 4 Left 6.51: Right 2.69
+21:54:57.168 -> Lap 3 Left 1.16: Right 4.54
+21:54:57.168 -> Lap 2 Left 1.00: Right 1.00
+21:54:57.168 -> Lap 1 Left 1.00: Right 1.00
+21:54:57.264 -> Client reconnected! Last message ID that it got is: 406247
+21:55:00.695 -> assertion "tcp_receive: valid queue length" failed: file "/home/runner/work/esp32-arduino-lib-builder/esp32-arduino-lib-builder/esp-idf/components/lwip/lwip/src/core/tcp_in.c", line 1197, function: tcp_receive
+21:55:00.695 -> abort() was called at PC 0x400f9ceb on core 0
+21:55:00.695 -> 
+21:55:00.695 -> ELF file SHA256: 0000000000000000
+21:55:00.695 -> 
+21:55:00.695 -> Backtrace: 0x400886a4:0x3ffb5560 0x40088921:0x3ffb5580 0x400f9ceb:0x3ffb55a0 0x40127f7e:0x3ffb55d0 0x40128f0f:0x3ffb55f0 0x401298c2:0x3ffb5610 0x4012fb1f:0x3ffb5630 0x40134266:0x3ffb5660 0x401225bf:0x3ffb5680 0x40089932:0x3ffb56b0
+21:55:00.742 -> 
+21:55:00.742 -> Rebooting...
+21:55:00.742 -> ets Jun  8 2016 00:22:57
+21:55:00.742 -> 
+21:55:00.742 -> rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+21:55:00.742 -> configsip: 0, SPIWP:0xee
+21:55:00.742 -> clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+21:55:00.742 -> mode:DIO, clock div:1
+21:55:00.742 -> load:0x3fff0018,len:4
+21:55:00.742 -> load:0x3fff001c,len:1044
+21:55:00.742 -> load:0x40078000,len:10124
+21:55:00.742 -> load:0x40080400,len:5856
+21:55:00.789 -> entry 0x400806a8

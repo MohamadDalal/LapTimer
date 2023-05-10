@@ -138,8 +138,8 @@ void lapTimePage() {
   Serial.println();
   Serial.println("Starting AP");
 
-  /*//Sæt WiFi mode til AP
-  WiFi.mode(WIFI_AP);
+  //Sæt WiFi mode til AP
+  WiFi.mode(WIFI_AP_STA);
 
   //Initialiser AP
   WiFi.softAP(settings.ssidAP.c_str(), settings.passAP.c_str());
@@ -147,12 +147,12 @@ void lapTimePage() {
   //Få IP-addressen til forbundne netværk og print den til serial.
   IPAddress IP = WiFi.softAPIP();
   Serial.print("AP IP address: ");
-  Serial.println(IP);*/
+  Serial.println(IP);
 
   //Sæt WiFi mode til AP
-  WiFi.mode(WIFI_STA);
+  //WiFi.mode(WIFI_STA);
 
-  //Initialiser AP
+  //Initialiser STA
   WiFi.begin(settings.ssidSTA.c_str(), settings.passSTA.c_str());
 
   Serial.print("Connecting to WiFi ..");
@@ -210,7 +210,12 @@ void lapTimePage() {
     //reset = true;
     //isStarted = false;
     currentRaceType->reset();
-    request->send(SPIFFS, currentRaceType->getHtmlFileName().c_str(), String(), false, processor);
+    //request->send(SPIFFS, currentRaceType->getHtmlFileName().c_str(), String(), false, processor);
+    events.send("reload", "reload", millis());
+  });
+
+  serverAP.on("/faillap", HTTP_GET, [](AsyncWebServerRequest * request) {
+    currentRaceType->failLap();
     events.send("reload", "reload", millis());
   });
 

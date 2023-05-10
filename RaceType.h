@@ -36,6 +36,7 @@ class RaceType{
     virtual void start();
     virtual void stop();
     virtual void reset();
+    virtual void failLap();
     virtual void modeSwitch();
     
   

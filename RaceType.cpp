@@ -7,6 +7,7 @@ void RaceType::lapTimer(){}
 String RaceType::processor(const String& var){}
 String RaceType::getCurrentLapTime(){};
 void RaceType::reset(){}
+void RaceType::failLap(){}
 
 bool RaceType::isInitialized(){return this->initialized;}
 bool RaceType::isStarted(){return this->started;}
@@ -59,7 +60,7 @@ String RaceType::findSlowestTime(float timesArray[], int currentLap) {
   return String(maxValue / 1000.0);
 }
 
-String RaceType::findDeltaTime(float timesArray[], int currentLap) {
+/*String RaceType::findDeltaTime(float timesArray[], int currentLap) {
   if (currentLap < 2) {
     return "none";
   }
@@ -80,6 +81,40 @@ String RaceType::findDeltaTime(float timesArray[], int currentLap) {
   else {
     return String(abs(deltaTime));
   }
+}*/
+
+String RaceType::findDeltaTime(float timesArray[], int currentLap) {
+  String retStr = "none";
+  int highIndex = -1;
+  int lowIndex = -1;
+  for(int i=currentLap - 1; i>0; i--){
+    if(timesArray[i] > -1.0){
+      highIndex = i;
+      break;
+    }
+  }
+  if(highIndex > 0){
+    for(int j = highIndex - 1; j>-1; j--){
+      if(timesArray[j] > -1.0){
+        lowIndex = j;
+        break;
+      }
+    }
+  }
+  if(lowIndex > -1){
+    float deltaTime = (timesArray[highIndex] - timesArray[lowIndex]) / 1000.0;
+    Serial.println("Laps used: " + String(highIndex) + " and " + String(lowIndex) + " | lastLap=" + String(timesArray[highIndex]) + " | lap before that=" + String(timesArray[lowIndex]));
+    if (deltaTime > 0.0) {
+      retStr = "+" + String(abs(deltaTime));
+    }
+    else if (deltaTime < 0.0) {
+      retStr = "-" + String(abs(deltaTime));
+    }
+    else {
+      return String(abs(deltaTime));
+    }
+  }
+  return retStr;
 }
 
 void RaceType::start(){
