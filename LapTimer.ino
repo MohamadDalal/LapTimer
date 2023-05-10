@@ -178,6 +178,11 @@ void lapTimePage() {
     request->send(SPIFFS, "/style.css", "text/css");
   });
 
+  //Link settingsMenu.html til HTML siden
+  serverAP.on("/settingsMenu.html", HTTP_GET, [](AsyncWebServerRequest * request) {
+    request->send(SPIFFS, "/settingsMenu.html", "text/css");
+  });
+
   serverAP.on("/endurance", HTTP_GET, [](AsyncWebServerRequest * request) {
     currentRaceType = RaceTypes[endurance];
     currentRaceType->modeSwitch();
@@ -274,6 +279,18 @@ void lapTimePage() {
     }
     request->send(200, "application/json", responseMessage);
     Serial.println("Finished handling the set threshold request");
+  });
+
+  serverAP.on("/settings", HTTP_PUT, [](AsyncWebServerRequest * request) {
+    String message;
+    String responseMessage = "{\"message\":\"No Message\"}";
+    Serial.println("Got a settings PUT request");
+    Serial.println("\tGot AP SSID: " + request->getParam("ssidAP", true)->value());
+    Serial.println("\tGot AP password: " + request->getParam("passAP", true)->value());
+    Serial.println("\tGot STA SSID: " + request->getParam("ssidSTA", true)->value());
+    Serial.println("\tGot STA password: " + request->getParam("passSTA", true)->value());
+    request->send(200, "application/json", responseMessage);
+    Serial.println("Finished handling the settings request");
   });
 
   // Handle Web Server Events

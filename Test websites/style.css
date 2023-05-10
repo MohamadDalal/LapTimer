@@ -55,7 +55,7 @@ nav ul li:hover {
     padding: 5px;
     border: 0px;
 }*/
-.settingsButton {
+/* .settingsButton {
     display: inline-block;
     margin: 5px 20px;
     border: 1px dotted grey;
@@ -65,22 +65,22 @@ nav ul li:hover {
     text-align: center;
     color: black;
     background-color: transparent;
-    padding: 5px;
+    padding: 5px; */
     /*border: 0px;*/
-}
+/* /
 .settingsButton:hover {
     border: 1px solid black;
 }
 #settingsMenu {
     height: 0vh;
-    transition: 0.1s;
+    transition: 0.1s; */
     /*background-color:beige;*/
-    border: 0px solid black;
+    /* border: 0px solid black;
 }
 #settingsForm{
-    display: none;
+    display: none; */
     /*transition: 0.3s; Was useless for display changes*/
-}
+/*}*/
 
 .laptimes {
     text-align: center;

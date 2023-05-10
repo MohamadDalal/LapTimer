@@ -1,0 +1,111 @@
+<button id="mainSettingsButton" class="settingsButton">Settings</button>
+<div id="settingsMenu" class="settingsMenu">
+  <!--<form id="settingsForm" method="post" onsubmit="return false">-->
+  <form id="settingsForm">
+    <fieldset>
+      <legend>Access point settings</legend>
+      <label for="ssidAP">SSID: </label>
+      <input id="ssidAP" name="ssidAP" value="%SSIDAP%">
+      <label for="passAP">Password: </label>
+      <!--<input id="passAP" name="passAP" type="password" value="%PASSAP%">-->
+      <input id="passAP" name="passAP" value="%PASSAP%">
+      <p>IP address: <span>%IPAP%</span></p>
+    </fieldset>
+    <fieldset>
+      <legend>Station connection settings</legend> <!-- Might need a better label -->
+      <label for="ssidSTA">SSID: </label>
+      <input id="ssidSTA" name="ssidSTA" value="%SSIDSTA%">
+      <label for="passSTA">Password: </label>
+      <input id="passSTA" name="passSTA" value="%PASSSTA%">
+      <p>IP address: <span>%IPSTA%</span></p>
+    </fieldset>
+    <input id="saveSettingsButton" class="settingsButton" type="submit" value="Save settings">
+  </form>
+</div>
+
+<style>
+  .settingsButton {
+    text-decoration: none;
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    background-color: transparent;
+    padding: 5px;
+    border: 0px;
+  }
+ .settingsButton {
+    display: inline-block;
+    margin: 5px 20px;
+    border: 1px dotted grey;
+    border-radius: 0.5em;
+    text-decoration: none;
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    background-color: transparent;
+    padding: 5px; 
+    /*border: 0px;*/
+ }
+  .settingsButton:hover {
+    border: 1px solid black;
+  }
+  #settingsMenu {
+    height: 0vh;
+    transition: 0.1s; 
+    /*background-color:beige;*/
+     border: 0px solid black;
+  }
+  #settingsForm{
+    display: none; 
+    /*transition: 0.3s; Was useless for display changes*/
+  }
+</style>
+
+<script>
+  if (!!window.EventSource) {
+      document.getElementById("settingsForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const xhttp = new XMLHttpRequest();
+      const FD = new FormData(document.getElementById("settingsForm"));
+      //for (var pair of FD.entries()) {
+      //  console.log(pair[0]+ ', ' + pair[1]); 
+      //}
+      //console.log(event.target.responseText);
+
+      // Define what happens on successful data submission
+      xhttp.addEventListener("load", (event) => {
+        //alert(event.target.responseText);
+        console.log(event.target.responseText);
+      });
+
+      // Define what happens in case of error
+      xhttp.addEventListener("error", (event) => {
+        alert('Oops! Something went wrong.');
+      });
+
+      xhttp.open("PUT", "/settings", true);
+      xhttp.send(FD);
+    });
+  }
+  var settingsButtonPressed = false;
+  document.getElementById("mainSettingsButton").onclick = function(){
+    if(settingsButtonPressed){
+      document.getElementById("settingsForm").style.display = "none";
+      //document.getElementById("settingsMenu").style.height = "0em";
+      document.getElementById("settingsMenu").style.height = document.getElementById("settingsForm").offsetHeight +"px" ;
+      //document.getElementById("settingsMenu").style.width = document.getElementById("settingsForm").offsetWidth +"px" ;
+      document.getElementById("settingsMenu").style.borderWidth = "0px";
+      settingsButtonPressed = false;
+    }
+    else{
+      document.getElementById("settingsForm").style.display = "inline-block";
+      console.log(document.getElementById("settingsForm").offsetHeight);
+      //document.getElementById("settingsMenu").style.height = "40vh";
+      document.getElementById("settingsMenu").style.height = document.getElementById("settingsForm").offsetHeight +"px" ;
+      //document.getElementById("settingsMenu").style.width = document.getElementById("settingsForm").offsetWidth +"px" ;
+      document.getElementById("settingsMenu").style.borderWidth = "1px";
+      settingsButtonPressed = true;
+    }
+  }
+</script>

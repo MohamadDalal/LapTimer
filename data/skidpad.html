@@ -9,6 +9,7 @@
 <body>
   <header>
     <h1>Laptimer</h1>
+    <div class="settingsDiv"></div>
     <nav>
       <ul>
         <li><a href="/endurance">Endurance</a></li>
@@ -211,6 +212,18 @@
 
   }
   
+  // Source: https://github.com/nurj20/Include-HTML-Into-Another-HTML
+  // This allows me to import html files into an element in this file
+  const settingsDiv = document.querySelector('.settingsDiv')
+  fetch('/settingsMenu.html')
+  .then(res=>res.text())
+  .then(data=>{
+      settingsDiv.innerHTML=data
+      const parser = new DOMParser()
+      const doc = parser.parseFromString(data, 'text/html')
+      eval(doc.querySelector('script').textContent)
+  })
+
   // Source: https://stackoverflow.com/a/45650898/19151548
   // So that pressing enter sets the threshold (Works only on computers)
   document.getElementById("threshold").addEventListener("keyup", function(e) {
