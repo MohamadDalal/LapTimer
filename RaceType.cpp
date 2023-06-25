@@ -3,7 +3,7 @@
 RaceType::RaceType(){}
 RaceType::RaceType(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileName){}
 void RaceType::init(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileName){}
-void RaceType::lapTimer(){}
+void RaceType::lapTimer(int readValue){}
 String RaceType::processor(const String& var){}
 String RaceType::getCurrentLapTime(){};
 void RaceType::reset(){}
@@ -116,6 +116,8 @@ String RaceType::findDeltaTime(float timesArray[], int currentLap) {
   }
   return retStr;
 }
+
+int RaceType::getSensorReading(){return this->sensorReading;}
 
 void RaceType::start(){
   this->started = true;

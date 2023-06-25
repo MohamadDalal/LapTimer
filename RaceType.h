@@ -13,7 +13,8 @@ class RaceType{
     bool started = true;
     //bool reset = false;
     int *PHOTO_SENSOR_THRESHOLD;
-    int photoSensorPin;
+    //int photoSensorPin;
+    int sensorReading = 0;
     String htmlFileName;
     float debounceTime;
     float next;
@@ -26,12 +27,13 @@ class RaceType{
     bool isInitialized();
     bool isStarted();
     String getHtmlFileName();
-    virtual void lapTimer();
+    virtual void lapTimer(int readValue);
     virtual String processor(const String& var);
     String findFastestTime(float timesArray[], int currentLap);
     String findAverageTime(float timesArray[], int currentLap);
     String findSlowestTime(float timesArray[], int currentLap);
     String findDeltaTime(float timesArray[], int currentLap);
+    int getSensorReading();
     virtual String getCurrentLapTime();
     virtual void start();
     virtual void stop();

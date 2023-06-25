@@ -7,7 +7,7 @@ Endurance::Endurance(int sensorPin, int* sensorThreshold, float debounceTime, As
 }
 
 void Endurance::init(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileName){
-  this->photoSensorPin = sensorPin;
+  //this->photoSensorPin = sensorPin;
   this->PHOTO_SENSOR_THRESHOLD = sensorThreshold;
   this->events = events;
   this->debounceTime = debounceTime;
@@ -16,15 +16,19 @@ void Endurance::init(int sensorPin, int* sensorThreshold, float debounceTime, As
   this->initialized = true;
 }
 
-void Endurance::lapTimer(){
-  int photoSensorValue = analogRead(this->photoSensorPin);//Læs foto sensor
+void Endurance::lapTimer(int readValue){
+  //int photoSensorValue = analogRead(this->photoSensorPin);//Læs foto sensor
   //Serial.print("Read following sensor value:"); Serial.println(photoSensorValue);
-  if ((photoSensorValue > *this->PHOTO_SENSOR_THRESHOLD) && (!this->startedFirstLap)){
+  //Serial.print("SensorValue:"); Serial.println(photoSensorValue);
+  //if ((photoSensorValue > *this->PHOTO_SENSOR_THRESHOLD) && (!this->startedFirstLap)){
+  this->sensorReading = readValue;
+  if ((readValue > *this->PHOTO_SENSOR_THRESHOLD) && (!this->startedFirstLap)){
     Serial.println("Starting first lap");
     this->startedFirstLap = true;
     this->lastTime = millis();
   }
-  else if ((photoSensorValue > *this->PHOTO_SENSOR_THRESHOLD) && (millis() > (this->lastTime + debounceTime)) && this->startedFirstLap) {  
+  //else if ((photoSensorValue > *this->PHOTO_SENSOR_THRESHOLD) && (millis() > (this->lastTime + debounceTime)) && this->startedFirstLap) {
+  else if ((readValue > *this->PHOTO_SENSOR_THRESHOLD) && (millis() > (this->lastTime + debounceTime)) && this->startedFirstLap) {  
     //Tilføj laptiden til array
     this->lapTimes[this->currentLap] = millis() - lastTime;
 
@@ -63,7 +67,8 @@ String Endurance::processor(const String& var){
       return "OFF";
     }
   }
-  if (var == "SENSORREADING"){return String(analogRead(this->photoSensorPin));}
+  //if (var == "SENSORREADING"){return String(analogRead(this->photoSensorPin));}
+  if (var == "SENSORREADING"){return String(this->sensorReading);}
   if (var == "SENSORTHRESH"){return String(*this->PHOTO_SENSOR_THRESHOLD);}
   if (var == "LAPNUMBER") {return String(this->currentLap);}
 

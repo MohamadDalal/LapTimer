@@ -15,7 +15,7 @@ class SkidPad: public RaceType{
     SkidPad();
     SkidPad(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileType);
     void init(int sensorPin, int* sensorThreshold, float debounceTime, AsyncEventSource* events, String htmlFileType);
-    void lapTimer();
+    void lapTimer(int readValue);
     String processor(const String& var);
     String getCurrentLapTime();
     void reset();

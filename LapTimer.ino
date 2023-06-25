@@ -64,6 +64,15 @@ const char* PARAM_MESSAGE = "message";
 
 
 float next = millis() + 5000;
+
+const int readFrequency = 10;
+float lastRead = 0;
+const int meanArrSize = 1000;    // Save enough for one second
+int slidingMeanSize = 10;        // Changeable parameter for the size of the sliding mean
+float meanArr[meanArrSize];
+int meanArrIndex = 0; 
+float slidingMeanVal = 0;
+
 // Rigtig værdier
 int PHOTO_SENSOR_THRESHOLD = 3000;
 //#define photoSensorPin 32
@@ -278,7 +287,8 @@ void lapTimePage() {
 
   // Send hvad photo sensoren læser til hjemmesiden
   serverAP.on("/getSensorReading", HTTP_GET, [](AsyncWebServerRequest * request) {
-    request->send_P(200, "text/plain", String(analogRead(photoSensorPin)).c_str());
+    //request->send_P(200, "text/plain", String(analogRead(photoSensorPin)).c_str());
+    request->send_P(200, "text/plain", String(currentRaceType->getSensorReading()).c_str());
   });
   
   // Possible messages of PUT request are: Positive numbers, negative numbers, decimal numbers and exponents "Ex:5e3"
@@ -397,6 +407,10 @@ void setup() {
   RaceTypes[skidPad] = new SkidPad(photoSensorPin, &PHOTO_SENSOR_THRESHOLD, 1000, &events, "/skidpad.html");
   currentRaceType = RaceTypes[endurance];
 
+  for(int i=0; i<meanArrSize; i++){
+    meanArr[i] = 0;
+  }
+
   //Start access point
   lapTimePage();
 }
@@ -406,8 +420,25 @@ void setup() {
 
 
 void loop() {
-  if (currentRaceType->isStarted()){
-    currentRaceType->lapTimer();
+  if (currentRaceType->isStarted() && ((millis()-lastRead)>readFrequency)){
+    float newRead = analogRead(photoSensorPin);
+    float oldSlidingMean = slidingMeanVal;
+    //slidingMeanVal = slidingMeanVal + ((newRead - meanArr[meanArrIndex])/meanArrSize);
+    slidingMeanVal = slidingMeanVal + ((newRead - meanArr[(meanArrSize+meanArrIndex-slidingMeanSize)%meanArrSize])/slidingMeanSize);
+    float slidingMeanDiff = slidingMeanVal-oldSlidingMean;
+    meanArr[meanArrIndex] = newRead;
+    currentRaceType->lapTimer(int((4095/2)+(slidingMeanDiff*slidingMeanSize/2))); // This will normalize the difference to be between 0 and 4094.
+    /*float slidingMeanSum = 0;
+    for(int i=0; i<meanArrSize; i++){
+      slidingMeanSum = slidingMeanSum + meanArr[i];
+    }*/
+    Serial.print("SensorValue:"); Serial.print(meanArr[meanArrIndex]); Serial.print(",");
+    Serial.print("SlidingMean:"); Serial.print(slidingMeanVal); Serial.print(",");
+    Serial.print("SlidingMeanDiff:"); Serial.print(slidingMeanDiff); Serial.print(",");
+    Serial.print("AdjustedDiff:"); Serial.print((4095/2)+(slidingMeanDiff*slidingMeanSize/2)); Serial.print(",");
+    Serial.print("minVal:"); Serial.print(0); Serial.print(","); Serial.print("maxVal:"); Serial.println(4095);
+    meanArrIndex = (meanArrIndex+1)%meanArrSize;
+    lastRead = millis();
   }
 
   delay(10);
