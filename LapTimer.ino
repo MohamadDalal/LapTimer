@@ -79,56 +79,97 @@ int PHOTO_SENSOR_THRESHOLD = 3000;
    skal have.
 */
 String processor(const String& var) {
-  //Serial.print("Starting processor with var: "); Serial.println(var);
+  Serial.print("Starting processor with var: "); Serial.println(var);
+  if (var == "SSIDAP"){return settings.ssidAP;}
+  if (var == "PASSAP"){return settings.passAP;}
+  if (var == "SSIDSTA"){return settings.ssidSTA;}
+  if (var == "PASSSTA"){return settings.passSTA;}
+  if (var == "IPAP"){return WiFi.softAPIP().toString();}
+  if (var == "IPSTA"){return WiFi.localIP().toString();}
   return currentRaceType->processor(var);
 }
 
-// https://linuxhint.com/esp32-both-access-station-points/
-// https://github.com/espressif/arduino-esp32/blob/master/libraries/WiFi/examples/WiFiBlueToothSwitch/WiFiBlueToothSwitch.ino
-/*void switchWiFiMode(bool modeAP, bool modeSta){
-  if(modeAP && modeSta){
-    WiFi.mode(WIFI_AP_STA);
-    WiFi.softAP(ssidAP, passwordAP);
-    Serial.print("AP IP address: ");
-    Serial.println(WiFi.softAPIP());
-    WiFi.begin(ssidSTA, passwordSTA);
-    Serial.println("\n[*] Connecting to WiFi Network");
-    while(WiFi.status() != WL_CONNECTED)
-    {
-        Serial.print(".");
-        delay(100);
-    }
-    Serial.print("\n[+] Connected to WiFi network with local IP : ");
-    Serial.println(WiFi.localIP());
-  }
-  else if(modeAP){
-    WiFi.mode(WIFI_AP);
-    WiFi.softAP(ssidAP, passwordAP);
-    WiFi.softAP(ssidAP, passwordAP);
-    Serial.print("AP IP address: ");
-    Serial.println(WiFi.softAPIP());
-  }
-  else if(modeSta){
-    WiFi.mode(WIFI_STA);
-    WiFi.begin(ssidSTA, passwordSTA);
-    WiFi.begin(ssidSTA, passwordSTA);
-    Serial.println("\n[*] Connecting to WiFi Network");
-    while(WiFi.status() != WL_CONNECTED)
-    {
-        Serial.print(".");
-        delay(100);
-    }
-    Serial.print("\n[+] Connected to WiFi network with local IP : ");
-    Serial.println(WiFi.localIP());
-  }
-  else{
-    // Technically if we reach this point we should turn off WiFi, but I don't wanna do that.
-    WiFi.mode(WIFI_OFF);
-    Serial.println("Turned WiFi off");
-  }
-  return;
-}*/
 
+
+String processSettings(AsyncWebServerRequest * request){
+  bool checksPassed = true;
+  String messageAP = "";
+  String messageSTA = "";
+  String status = "1";
+  float timeoutSTA = 5000;
+  
+  String ssidAP_New = request->getParam("ssidAP", true)->value();
+  String passAP_New = request->getParam("passAP", true)->value();
+  String ssidSTA_New = request->getParam("ssidSTA", true)->value();
+  String passSTA_New = request->getParam("passSTA", true)->value();
+  /*
+   * So I found out that the ESP WiFi driver accepts anything as password.
+   * Meanwhile WiFi.h checks to see if a password is between 8 and 63 characters, otherwise it gives an error.
+   * However, if UTF-8 characters are entered (æøå) then it is possible to make the library think it is 8 characters even if it isn't
+   * This is because a password like Æøåø counts as 8 bytes. That is why I am going to reject any UTF-8 characters
+   */
+  for(int i=0; i<passAP_New.length(); i++){
+    if(passAP_New[i] > 127){
+      checksPassed = false;
+      messageAP = String("Illegal character in password (") + passAP_New[i] + ")";
+      status = "-1";
+      break;
+    }
+  }
+  for(int i=0; i<passSTA_New.length(); i++){
+    if(passSTA_New[i] > 127){
+      checksPassed = false;
+      messageSTA = String("Illegal character in password (") + passSTA_New[i] + ")";
+      status = "-1";
+      break;
+    }
+  }
+  Serial.println("\tGot AP SSID: " + ssidAP_New);
+  Serial.println("\tGot AP password: " + passAP_New);
+  Serial.println("\tGot STA SSID: " + ssidSTA_New);
+  Serial.println("\tGot STA password: " + passSTA_New);
+  if(checksPassed){
+    bool softAPRes = WiFi.softAP(ssidAP_New.c_str(), passAP_New.c_str());
+    if(softAPRes){
+      settings.ssidAP = ssidAP_New;
+      settings.passAP = passAP_New;
+      messageAP = "New AP is set up";
+      status = "1";
+    }
+    else{
+      messageAP = "Failed to set up new AP";
+      status = "-1";
+    }
+    WiFi.begin(ssidSTA_New.c_str(), passSTA_New.c_str());
+    float WiFiStaBegin = millis();
+    Serial.println("\n[*] Connecting to WiFi Network");
+    /*while(WiFi.status() != WL_CONNECTED && (millis()-WiFiStaBegin) < timeoutSTA)
+    {
+        //Serial.print(".");
+        delay(100);
+    }*/
+    delay(1000);
+    if(WiFi.status() != WL_CONNECTED){
+      messageSTA = "Failed to connect to AP";
+      status = "-1";
+      WiFi.begin(settings.ssidSTA.c_str(), settings.passSTA.c_str());
+      float WiFiStaBegin = millis();
+      Serial.println("\n[*] Connecting to WiFi Network");
+      while(WiFi.status() != WL_CONNECTED && (millis()-WiFiStaBegin) < timeoutSTA)
+      {
+          //Serial.print(".");
+          delay(100);
+      }
+    }
+    else{
+      messageSTA = "Connected to " + ssidSTA_New;
+      settings.ssidSTA = ssidSTA_New;
+      settings.passSTA = passSTA_New;
+      status = "1";
+    }
+  }
+  return "{\"status\":\"" + status + "\", \"messageAP\":\"" + messageAP + "\", \"messageSTA\":\"" + messageSTA + "\"}";
+}
 
 // ----- MAIN WEBSERVER -----
 /*
@@ -155,8 +196,9 @@ void lapTimePage() {
   //Initialiser STA
   WiFi.begin(settings.ssidSTA.c_str(), settings.passSTA.c_str());
 
-  Serial.print("Connecting to WiFi ..");
-  while (WiFi.status() != WL_CONNECTED) {
+  float WiFiStaBegin = millis();
+  Serial.println("\n[*] Connecting to WiFi Network");
+  while(WiFi.status() != WL_CONNECTED && (millis()-WiFiStaBegin) < 5000){
     Serial.print('.');
     delay(1000);
   }
@@ -180,7 +222,7 @@ void lapTimePage() {
 
   //Link settingsMenu.html til HTML siden
   serverAP.on("/settingsMenu.html", HTTP_GET, [](AsyncWebServerRequest * request) {
-    request->send(SPIFFS, "/settingsMenu.html", "text/css");
+    request->send(SPIFFS, "/settingsMenu.html", "text/html", false, processor);
   });
 
   serverAP.on("/endurance", HTTP_GET, [](AsyncWebServerRequest * request) {
@@ -282,15 +324,13 @@ void lapTimePage() {
   });
 
   serverAP.on("/settings", HTTP_PUT, [](AsyncWebServerRequest * request) {
-    String message;
-    String responseMessage = "{\"message\":\"No Message\"}";
+    //String message;
+    String responseMessage;// = "{\"status\":\"-1\", \"messageAP\":\"No Message\", \"messageSTA\":\"No Message\"}";
     Serial.println("Got a settings PUT request");
-    Serial.println("\tGot AP SSID: " + request->getParam("ssidAP", true)->value());
-    Serial.println("\tGot AP password: " + request->getParam("passAP", true)->value());
-    Serial.println("\tGot STA SSID: " + request->getParam("ssidSTA", true)->value());
-    Serial.println("\tGot STA password: " + request->getParam("passSTA", true)->value());
+    responseMessage = processSettings(request);
     request->send(200, "application/json", responseMessage);
     Serial.println("Finished handling the settings request");
+    //Serial.println("\tTest thingy" + request->getParam("Gabol", true)->value());
   });
 
   // Handle Web Server Events
